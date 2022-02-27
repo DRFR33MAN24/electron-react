@@ -10,6 +10,7 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import profileImg from "../Images/multitasking.svg";
 const { ipcRenderer } = window.require("electron");
+const Context = React.createContext({});
 class MainPage extends Component {
   state = { pageTitle: "الشاشة الرئيسية" };
   componentWillMount() {
@@ -318,7 +319,9 @@ class MainPage extends Component {
               <div>{this.state.pageTitle}</div>
             </nav>
             <div class="container justify-contnet-center w-100   " dir="rtl">
-              <Outlet changePageTitle={this.ChangePageTitle} />
+              <Context.Provider value={this.ChangePageTitle}>
+                <Outlet />
+              </Context.Provider>
             </div>
           </div>
           <ul
