@@ -1,11 +1,11 @@
 const { Sequelize } = require("sequelize");
 
 module.exports = new Sequelize(
-    "coinguru_db",
-    "coinguru_admin",
-    "CoinGuru-123",
+    "react_electron",
+    "phpmyadmin",
+    "blackmesa",
     {
-        host: "sv99.ifastnet.com",
+        host: "localhost",
         dialect: "mysql"
     }
 );
