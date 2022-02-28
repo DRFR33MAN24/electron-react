@@ -19,12 +19,13 @@ const User = db.define(
     name: {
       type: DataTypes.STRING,
       allowNull: false
+
       // allowNull defaults to true
     },
 
     email: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: true,
       unique: true
       // allowNull defaults to true
     }, phone: {
@@ -75,7 +76,8 @@ const User = db.define(
     }
   },
   {
-    // Other model options go here
+    charset: 'utf8',
+    collate: 'utf8_unicode_ci'
   }
 );
 

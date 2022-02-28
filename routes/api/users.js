@@ -13,8 +13,8 @@ const User = require("../../models/User");
 // @desc Register New User
 // @acces Public
 router.post("/", async (req, res) => {
-  const { name, email, password, active, token } = req.body;
-
+  console.log(req.body);
+  const { name, phone, password, active } = req.body;
   // Verify URL
   // const query = stringify({
   //   secret: config.get("reCAPTCHA"),
@@ -25,17 +25,17 @@ router.post("/", async (req, res) => {
   // //console.log(verifyURL);
   // const body = await axios.get(verifyURL);
   //console.log(body.data);
-  if (body.data.success !== undefined && !body.data.success) {
-    return res.status(400).json({ msg: "Failed captcha verification" });
-  }
+  // if (body.data.success !== undefined && !body.data.success) {
+  //   return res.status(400).json({ msg: "Failed captcha verification" });
+  // }
 
-  if (!name || !email || !password) {
+  if (!name || !phone || !password) {
     return res.status(400).json({ msg: "Please enter all fields" });
   }
 
   // Check for exitsting user
   let user = await User.findOne(
-    { where: { email: `${email}` } },
+    { where: { phone: `${phone}` } },
     { plain: true }
   );
   if (user) {
@@ -49,7 +49,7 @@ router.post("/", async (req, res) => {
   // });
   const newUser = User.build({
     name: `${name}`,
-    email: `${email}`,
+    phone: `${phone}`,
     password: `${password}`,
     active: `${active}`
   });
@@ -74,7 +74,7 @@ router.post("/", async (req, res) => {
               user: {
                 id: user.id,
                 name: user.name,
-                email: user.email,
+                phone: user.phone,
                 active: user.active
               }
             });

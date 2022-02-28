@@ -51,4 +51,9 @@ app.use("/api/stats", require("./routes/api/stats"));
 
 const port = process.env.PORT || 5000;
 
-app.listen(port);
+const server = app.listen(port);
+process.on('SIGINT', () => {
+    console.log(" Closing DB connection and server");
+    db.close();
+    server.close();
+})
