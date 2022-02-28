@@ -48,7 +48,7 @@ router.post("/", async (req, res) => {
       { id: user.id },
       config.get("jwtSecret"),
       {
-        expiresIn: 3600
+        expiresIn: 604800
       },
       (err, token) => {
         if (err) throw err;
@@ -73,6 +73,7 @@ router.post("/", async (req, res) => {
 });
 
 router.get("/user", auth, async (req, res) => {
+  //console.log("LoadUser Route");
   let user = await User.findAll({
     where: {
       id: req.user.id

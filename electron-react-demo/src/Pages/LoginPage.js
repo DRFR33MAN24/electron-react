@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { login } from "../actions/authAction";
 import { clearErrors, returnErrors } from "../actions/errorAction";
-import { compose } from "redux";
+
 
 const { ipcRenderer } = window.require("electron");
 class LoginPage extends Component {
