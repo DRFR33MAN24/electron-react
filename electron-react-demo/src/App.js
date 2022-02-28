@@ -30,15 +30,16 @@ class App extends Component {
     console.log(error);
     // if (error !== prevProps.error) {
 
-    if (
+    if (error.id === null || error.id === undefined) return;
+    else if (
       error.id === AUTH_ERROR ||
       error.id === LOGIN_FAIL ||
       error.id === RESET_FAIL
     ) {
       this.props.navigate("/Login");
+    } else {
+      this.props.navigate("/Main");
     }
-
-    this.props.navigate("/Main");
   }
 
   render() {
