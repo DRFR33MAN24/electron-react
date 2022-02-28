@@ -35,7 +35,7 @@
     "eject": "react-scripts eject",
     "dev": "concurrently --kill-others \"cross-env BROWSER=none npm start\" \"wait-on http://localhost:3000 && electron .\"",
     "electron": "wait-on tcp:3000 && electron --enable-transparent-visuals   .",
-    "electron:build": "npm run build && npm run     -c.extraMetadata.main=build/main.js"
+    "electron:build": "npm run build &&   electron-builder -c.extraMetadata.main=build/main.js"
   },
   "proxy": "http://localhost:5000",
   "build": {
