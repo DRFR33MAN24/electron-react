@@ -170,34 +170,34 @@ export const resetPassword = ({ email, password, token }) => (
 };
 
 // Login User
-export const login = ({ email, password, token }) => dispatch => {
-  dispatch(returnErrors("خطأ في تسجيل الدخول", "500", "NO ERROR"));
-  // dispatch({ type: USER_LOADING });
-  // // Headers
-  // const config = {
-  //     headers: {
-  //         "Content-Type": "application/json"
-  //     }
-  // };
+export const login = ({ phone, password }) => dispatch => {
+  //dispatch(returnErrors("خطأ في تسجيل الدخول", "500", "NO ERROR"));
+  dispatch({ type: USER_LOADING });
+  // Headers
+  const config = {
+    headers: {
+      "Content-Type": "application/json"
+    }
+  };
 
-  // // Request body
-  // const body = JSON.stringify({ email, password, token });
-  // axios
-  //     .post("/api/auth", body, config)
-  //     .then(res =>
-  //         dispatch({
-  //             type: LOGIN_SUCCESS,
-  //             payload: res.data
-  //         })
-  //     )
-  //     .catch(err => {
-  //         dispatch(
-  //             returnErrors(err.response.data, err.response.status, "LOGIN_FAIL")
-  //         );
-  //         dispatch({
-  //             type: LOGIN_FAIL
-  //         });
-  //     });
+  // Request body
+  const body = JSON.stringify({ phone, password });
+  axios
+    .post("http://localhost:5000/api/auth", body, config)
+    .then(res =>
+      dispatch({
+        type: LOGIN_SUCCESS,
+        payload: res.data
+      })
+    )
+    .catch(err => {
+      dispatch(
+        returnErrors(err.response.data, err.response.status, "LOGIN_FAIL")
+      );
+      dispatch({
+        type: LOGIN_FAIL
+      });
+    });
 };
 
 // Logout User

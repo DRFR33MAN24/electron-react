@@ -1,8 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const auth = require("../../middleware/auth");
-const axios = require("axios");
-const Postback = require("../../models/Postback");
+//const axios = require("axios");
+//const Postback = require("../../models/Postback");
 const User = require("../../models/User");
 
 const pass = "coin_123";
@@ -16,7 +16,7 @@ router.get("/", async (req, res) => {
   let count = await User.count();
 
   // get total payout
-  let total = await Postback.sum("payout");
+  //let total = await Postback.sum("payout");
 
   // get num of tickets
   const stats = { total: total, count: count };

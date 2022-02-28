@@ -10,6 +10,7 @@ import { compose } from "redux";
 const { ipcRenderer } = window.require("electron");
 class LoginPage extends Component {
   state = {
+    phone: "",
     email: "",
     password: "",
     msg: "",
@@ -36,7 +37,7 @@ class LoginPage extends Component {
       // console.log("error")
       // Check for register error
       if (error.id === "LOGIN_FAIL") {
-        this.setState({ msg: error.msg });
+        this.setState({ msg: error.msg.msg });
       } else {
         this.setState({ msg: null });
       }
@@ -53,14 +54,19 @@ class LoginPage extends Component {
   //   ipcRenderer.send("changeWindowSize", 1000, 600, true);
   //   this.props.navigate("/Main");
   // };
-
+  handlePassword = (event) => {
+    this.setState({ password: event.target.value })
+  }
+  handlePhone = (event) => {
+    this.setState({ phone: event.target.value })
+  }
   onSubmit = e => {
     e.preventDefault();
     //console.log('submit');
-    const { email, password } = this.state;
+    const { phone, password } = this.state;
 
     const user = {
-      email,
+      phone,
       password
     };
 
@@ -89,6 +95,8 @@ class LoginPage extends Component {
                   id="exampleInputEmail1"
                   aria-describedby="emailHelp"
                   placeholder="ادخل رقم الهاتف"
+                  onChange={this.handlePhone}
+
                 />
               </div>
               <div class="form-group py-1">
@@ -98,6 +106,7 @@ class LoginPage extends Component {
                   class="form-control"
                   id="exampleInputPassword1"
                   placeholder="كلمة المرور"
+                  onChange={this.handlePassword}
                 />
               </div>
               <div class="form-check  ">

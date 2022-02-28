@@ -1,8 +1,10 @@
 import React, { Component } from "react";
-
+import { Context } from './MainPage'
 class SystemSettingsPage extends Component {
+  state = { name: "الإعدادات" }
+  static contextType = Context;
   componentWillMount() {
-    this.props.changePageTitle("الإعدادات");
+    this.context(this.state.name);
   }
   render() {
     return (

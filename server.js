@@ -1,12 +1,12 @@
 const express = require("express");
-
+const cors = require('cors');
 const config = require("config");
 const path = require("path");
 const db = require("./database");
 const User = require("./models/User");
 
 const app = express();
-
+app.use(cors());
 app.use(express.json());
 
 
@@ -21,10 +21,10 @@ db.authenticate()
         console.log("Unable to connect", err);
     });
 
-// app.use("/api/users", require("./routes/api/users"));
-// app.use("/api/auth", require("./routes/api/auth"));
+app.use("/api/users", require("./routes/api/users"));
+app.use("/api/auth", require("./routes/api/auth"));
 
-// app.use("/api/stats", require("./routes/api/stats"));
+app.use("/api/stats", require("./routes/api/stats"));
 
 
 // Serve static assets if in production

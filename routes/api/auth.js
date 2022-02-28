@@ -4,7 +4,7 @@ const bcryptjs = require("bcryptjs");
 const config = require("config");
 const jwt = require("jsonwebtoken");
 const auth = require("../../middleware/auth");
-const axios = require("axios");
+//const axios = require("axios");
 const { stringify } = require("query-string");
 // User Model
 const User = require("../../models/User");
@@ -13,26 +13,27 @@ const User = require("../../models/User");
 // @desc Auth the user
 // @acces Public
 router.post("/", async (req, res) => {
-  const { email, password, token } = req.body;
+  const { phone, password } = req.body;
   // Verify URL
-  const query = stringify({
-    secret: config.get("reCAPTCHA"),
-    response: req.body.token,
-    remoteip: req.connection.remoteAddress
-  });
-  const verifyURL = `${config.get("verifyURL")}${query}`;
-  //console.log(verifyURL);
-  const body = await axios.get(verifyURL);
+  // const query = stringify({
+  //   secret: config.get("reCAPTCHA"),
+  //   response: req.body.token,
+  //   remoteip: req.connection.remoteAddress
+  // });
+  // const verifyURL = `${config.get("verifyURL")}${query}`;
+  // //console.log(verifyURL);
+  // const body = await axios.get(verifyURL);
   //console.log(body.data);
-  if (body.data.success !== undefined && !body.data.success) {
-    return res.status(400).json({ msg: "Failed captcha verification" });
-  }
+  // if (body.data.success !== undefined && !body.data.success) {
+  //   return res.status(400).json({ msg: "Failed captcha verification" });
+  // }
 
-  if (!email || !password) {
+
+  if (!phone || !password) {
     return res.status(400).json({ msg: "Please enter all fields" });
   }
 
-  let user = await User.findOne({ where: { email: email } }, { plain: true });
+  let user = await User.findOne({ where: { phone: phone } }, { plain: true });
   if (!user) {
     return res.status(400).json({ msg: "User Does not exists." });
   }
@@ -56,7 +57,7 @@ router.post("/", async (req, res) => {
           user: {
             id: user.id,
             name: user.name,
-            email: user.email,
+            phone: user.phone,
             balance: user.balance,
             password: user.password,
             country: user.country,

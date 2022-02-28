@@ -10,7 +10,7 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import profileImg from "../Images/multitasking.svg";
 const { ipcRenderer } = window.require("electron");
-const Context = React.createContext({});
+export const Context = React.createContext({});
 class MainPage extends Component {
   state = { pageTitle: "الشاشة الرئيسية" };
   componentWillMount() {
