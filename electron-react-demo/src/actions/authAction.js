@@ -42,7 +42,7 @@ export const loadUser = () => (dispatch, getState) => {
           //console.log('Image api called', r.data);
           dispatch({
             type: IMG_LOADED,
-            payload: Buffer.from(r.data, 'binary').toString('base64')
+            payload: r.data
           })
         })
     })

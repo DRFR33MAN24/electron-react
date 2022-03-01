@@ -99,16 +99,21 @@ router.get("/img", auth, async (req, res) => {
 
   const profile = path.join(__dirname, '../..', userFolder, req.user.id.toString(10), 'profile.jpg');
   console.log(profile);
-  fs.access(profile, (error) => {
-    //  if any error
-    if (error) {
-      console.log(error);
-      return;
-    }
-  });
+  // fs.access(profile, (error) => {
+  //   //  if any error
+  //   if (error) {
+  //     console.log(error);
+  //     return;
+  //   }
+  // });
 
-  res.contentType('image/jpg')
-  res.sendFile(profile);
+  // res.contentType('image/jpg')
+  // res.sendFile(profile);
+  fs.readFile(profile, function (err, data) {
+    res.writeHead(200, { 'Content-Type': 'image/jpeg' });
+    res.write(data);
+    return res.end();
+  });
 
 
   // res.json('');
