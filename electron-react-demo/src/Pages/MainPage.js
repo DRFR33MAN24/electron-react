@@ -364,7 +364,7 @@ class MainPage extends Component {
             <div class="container mb-3">
               <div class="row d-flex align-items-center justify-content-center pt-2 ">
                 <img
-                  src={'data:image/jpeg;base64,' + hexToBase64(img)}
+                  src={img}
                   className="rounded-circle image-profile border bg-white"
                   width="64"
                   height="64"

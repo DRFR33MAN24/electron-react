@@ -36,13 +36,17 @@ export const loadUser = () => (dispatch, getState) => {
     }
     )
     .then(res => {
-      axios.get("http://localhost:5000/api/auth/img", tokenConfig(getState))
+      axios.get("http://localhost:5000/api/auth/img", tokenConfig(getState), { responseType: 'arraybuffer' })
         .then(r => {
+          let image = btoa(
+            new Uint8Array(r.data)
+              .reduce((data, byte) => data + String.fromCharCode(byte), '')
+          );
           dispatch({ type: NO_ERROR })
           //console.log('Image api called', r.data);
           dispatch({
             type: IMG_LOADED,
-            payload: r.data
+            payload: `data:${response.headers['content-type'].toLowerCase()};base64,${image}`
           })
         })
     })
