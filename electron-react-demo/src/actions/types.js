@@ -25,3 +25,4 @@ export const GET_NOTIFICATIONS = "GET_NOTIFICATIONS";
 export const CLEAR_NOTIFICATIONS = "CLEAR_NOTIFICATIONS";
 export const GET_OFFER_ID = "GET_OFFER_ID";
 export const NO_ERROR = "NO_ERROR";
+export const IMG_LOADED = "IMG_LOADED";

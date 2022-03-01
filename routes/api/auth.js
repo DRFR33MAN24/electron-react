@@ -8,7 +8,9 @@ const auth = require("../../middleware/auth");
 const { stringify } = require("query-string");
 // User Model
 const User = require("../../models/User");
-
+const fs = require('fs');
+const path = require("path");
+const userFolder = '/users_data';
 // @route POST api/auth
 // @desc Auth the user
 // @acces Public
@@ -87,6 +89,29 @@ router.get("/user", auth, async (req, res) => {
   }
 
   res.json(user);
+
+  // User.findById(req.user.id)
+  //   .select("-password")
+  //   .then(user => res.json(user));
+});
+router.get("/img", auth, async (req, res) => {
+  console.log('Image Route Called');
+
+  const profile = path.join(__dirname, '../..', userFolder, req.user.id.toString(10), 'profile.png');
+  console.log(profile);
+  fs.access(profile, (error) => {
+    //  if any error
+    if (error) {
+      console.log(error);
+      return;
+    }
+  });
+
+  res.sendFile(profile);
+
+
+
+  // res.json('');
 
   // User.findById(req.user.id)
   //   .select("-password")

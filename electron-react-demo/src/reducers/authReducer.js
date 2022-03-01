@@ -12,7 +12,8 @@ import {
     EMAIL_SENT,
     SENT_SUCCESS,
     RESET_SUCCESS,
-    RESET_FAIL
+    RESET_FAIL,
+    IMG_LOADED
 } from "../actions/types";
 import { tr } from "date-fns/locale";
 
@@ -23,7 +24,8 @@ const initialState = {
     user: {},
     updated: false,
     mail_sent: false,
-    resetted: false
+    resetted: false,
+    profileImg: null
 };
 
 export default function (state = initialState, action) {
@@ -71,6 +73,12 @@ export default function (state = initialState, action) {
                 isAuthenticated: true,
                 isLoading: false,
                 user: action.payload
+            };
+        case IMG_LOADED:
+            //save image to local folder
+            return {
+                ...state,
+                profileImg: action.payload
             };
 
         case LOGIN_SUCCESS:

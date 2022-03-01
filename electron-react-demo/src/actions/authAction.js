@@ -16,7 +16,8 @@ import {
   RESET_SUCCESS,
   GET_ERRORS,
   NO_ERROR,
-  CLEAR_ERRORS
+  CLEAR_ERRORS,
+  IMG_LOADED
 } from "./types";
 
 // Check token & load user
@@ -26,12 +27,25 @@ export const loadUser = () => (dispatch, getState) => {
 
   axios
     .get("http://localhost:5000/api/auth/user", tokenConfig(getState))
-    .then(res =>
+    .then(res => {
+
       dispatch({
         type: USER_LOADED,
         payload: res.data
       })
+    }
     )
+    .then(res => {
+      axios.get("http://localhost:5000/api/auth/img", tokenConfig(getState))
+        .then(r => {
+          dispatch({ type: NO_ERROR })
+          //console.log('Image api called', r.data);
+          dispatch({
+            type: IMG_LOADED,
+            payload: r.data
+          })
+        })
+    })
     .catch(err => {
       dispatch(returnErrors(err.response.data, err.response.status, AUTH_ERROR));
       dispatch({

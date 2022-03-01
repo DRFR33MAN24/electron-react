@@ -12,7 +12,7 @@ import {
   faSignOut
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import profileImg from "../Images/multitasking.svg";
+//import profileImg from "../Images/multitasking.svg";
 
 const { ipcRenderer } = window.require("electron");
 export const Context = React.createContext({});
@@ -26,7 +26,8 @@ class MainPage extends Component {
     logout: PropTypes.func.isRequired,
     clearErrors: PropTypes.func.isRequired,
     returnErrors: PropTypes.func.isRequired,
-    user: PropTypes.object
+    user: PropTypes.object,
+    profileImg: PropTypes.string
   };
   componentWillMount() {
     ipcRenderer.send("changeWindowSize", 1000, 600, true);
@@ -39,7 +40,8 @@ class MainPage extends Component {
   };
   render() {
     const user = this.props.user;
-
+    const img = this.props.profileImg;
+    console.log(img);
     if (user === null) return (<div></div>);
 
     return (
@@ -361,7 +363,7 @@ class MainPage extends Component {
             <div class="container mb-3">
               <div class="row d-flex align-items-center justify-content-center pt-2 ">
                 <img
-                  src={profileImg}
+                  src={img}
                   className="rounded-circle image-profile border bg-white"
                   width="64"
                   height="64"
@@ -449,7 +451,8 @@ const mapStateToProps = state => ({
   isAuthenticated: state.auth.isAuthenticated,
   isLoading: state.auth.isLoading,
   error: state.error,
-  user: state.auth.user
+  user: state.auth.user,
+  profileImg: state.auth.profileImg
 });
 
 // export default compose(withRouter, connect(mapStateToProps, { login, returnErrors, clearErrors })(
