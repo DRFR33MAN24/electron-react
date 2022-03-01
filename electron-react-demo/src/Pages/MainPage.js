@@ -42,7 +42,7 @@ class MainPage extends Component {
     const user = this.props.user;
     const img = this.props.profileImg;
     console.log(img);
-    if (user === null) return (<div></div>);
+    if (user === null) return <div></div>;
 
     return (
       <div>
@@ -363,15 +363,18 @@ class MainPage extends Component {
             <div class="container mb-3">
               <div class="row d-flex align-items-center justify-content-center pt-2 ">
                 <img
-                  src={img}
+                  src={btoa(img)}
                   className="rounded-circle image-profile border bg-white"
                   width="64"
                   height="64"
                 />
               </div>
               <div class="row text-light align-items-center justify-content-center">
-                {user.isManager ? (<span className="text-warning">مدير</span>) :
-                  (<span className="text-light">موظف</span>)}
+                {user.isManager ? (
+                  <span className="text-warning">مدير</span>
+                ) : (
+                  <span className="text-light">موظف</span>
+                )}
                 <span className="text-dark">&nbsp;|&nbsp; </span>
                 <div className="text-light"> {user.name}</div>
               </div>
