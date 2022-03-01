@@ -1,5 +1,5 @@
-function hexToBase64(str) {
-    return btoa(String.fromCharCode.apply(null, str.replace(/\r|\n/g, "").replace(/([\da-fA-F]{2}) ?/g, "0x$1 ").replace(/ +$/, "").split(" ")));
+function FormatImg(str) {
+  return str + "data:image/png;base64";
 }
 
-export default hexToBase64;
+export default FormatImg;

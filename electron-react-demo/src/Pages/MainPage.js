@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { logout } from "../actions/authAction";
 import { clearErrors, returnErrors } from "../actions/errorAction";
-import hexToBase64 from "../util";
+
 import {
   faWindowMaximize,
   faWindowClose,
@@ -13,6 +13,7 @@ import {
   faSignOut
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import FormatImg from "../util";
 //import profileImg from "../Images/multitasking.svg";
 
 const { ipcRenderer } = window.require("electron");
@@ -364,7 +365,7 @@ class MainPage extends Component {
             <div class="container mb-3">
               <div class="row d-flex align-items-center justify-content-center pt-2 ">
                 <img
-                  src={img}
+                  src={FormatImg(img)}
                   className="rounded-circle image-profile border bg-white"
                   width="64"
                   height="64"

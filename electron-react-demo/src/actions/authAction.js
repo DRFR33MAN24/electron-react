@@ -28,30 +28,30 @@ export const loadUser = () => (dispatch, getState) => {
   axios
     .get("http://localhost:5000/api/auth/user", tokenConfig(getState))
     .then(res => {
-
       dispatch({
         type: USER_LOADED,
         payload: res.data
-      })
-    }
-    )
+      });
+    })
     .then(res => {
-      axios.get("http://localhost:5000/api/auth/img", tokenConfig(getState), { responseType: 'arraybuffer' })
+      axios
+        .get("http://localhost:5000/api/auth/img", tokenConfig(getState), {
+          responseType: "arraybuffer"
+        })
         .then(r => {
-          let image = btoa(
-            new Uint8Array(r.data)
-              .reduce((data, byte) => data + String.fromCharCode(byte), '')
-          );
-          dispatch({ type: NO_ERROR })
+          let data = Buffer.from(r.data).toString("base64");
+          dispatch({ type: NO_ERROR });
           //console.log('Image api called', r.data);
           dispatch({
             type: IMG_LOADED,
-            payload: `data:${response.headers['content-type'].toLowerCase()};base64,${image}`
-          })
-        })
+            payload: data
+          });
+        });
     })
     .catch(err => {
-      dispatch(returnErrors(err.response.data, err.response.status, AUTH_ERROR));
+      dispatch(
+        returnErrors(err.response.data, err.response.status, AUTH_ERROR)
+      );
       dispatch({
         type: AUTH_ERROR
       });
@@ -210,9 +210,8 @@ export const login = ({ phone, password }) => dispatch => {
       dispatch({
         type: LOGIN_SUCCESS,
         payload: res.data
-      })
-    }
-    )
+      });
+    })
     .catch(err => {
       dispatch(
         returnErrors(err.response.data, err.response.status, "LOGIN_FAIL")
@@ -229,7 +228,7 @@ export const logout = () => dispatch => {
   //   type: LOGOUT_SUCCESS
   // };
   dispatch({ type: LOGOUT_SUCCESS });
-  dispatch(clearErrors())
+  dispatch(clearErrors());
 };
 
 // Setup config/headers and token
