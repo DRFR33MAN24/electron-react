@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { logout } from "../actions/authAction";
 import { clearErrors, returnErrors } from "../actions/errorAction";
+import hexToBase64 from "../util";
 import {
   faWindowMaximize,
   faWindowClose,
@@ -42,7 +43,7 @@ class MainPage extends Component {
     const user = this.props.user;
     const img = this.props.profileImg;
     console.log(img);
-    if (user === null) return <div></div>;
+    if (user === null || img === null) return <div></div>;
 
     return (
       <div>
@@ -363,7 +364,7 @@ class MainPage extends Component {
             <div class="container mb-3">
               <div class="row d-flex align-items-center justify-content-center pt-2 ">
                 <img
-                  src={btoa(img)}
+                  src={img}
                   className="rounded-circle image-profile border bg-white"
                   width="64"
                   height="64"

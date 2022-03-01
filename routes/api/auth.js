@@ -97,7 +97,7 @@ router.get("/user", auth, async (req, res) => {
 router.get("/img", auth, async (req, res) => {
   console.log('Image Route Called');
 
-  const profile = path.join(__dirname, '../..', userFolder, req.user.id.toString(10), 'profile.png');
+  const profile = path.join(__dirname, '../..', userFolder, req.user.id.toString(10), 'profile.jpg');
   console.log(profile);
   fs.access(profile, (error) => {
     //  if any error
@@ -107,8 +107,8 @@ router.get("/img", auth, async (req, res) => {
     }
   });
 
+  res.contentType('image/jpg')
   res.sendFile(profile);
-
 
 
   // res.json('');

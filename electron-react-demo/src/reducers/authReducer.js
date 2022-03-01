@@ -76,6 +76,7 @@ export default function (state = initialState, action) {
             };
         case IMG_LOADED:
             //save image to local folder
+
             return {
                 ...state,
                 profileImg: action.payload
