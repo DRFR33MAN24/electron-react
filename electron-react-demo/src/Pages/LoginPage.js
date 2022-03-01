@@ -42,9 +42,7 @@ class LoginPage extends Component {
         this.setState({ msg: null });
       }
 
-      if (error.id === "NO ERROR") {
-        this.props.navigate("/Main");
-      }
+
 
       // If authenticated close modal
       // If authenicated go to dashboard
@@ -66,10 +64,10 @@ class LoginPage extends Component {
     const { phone, password } = this.state;
 
     const user = {
-      phone,
-      password
+      phone: phone,
+      password: password
     };
-
+    console.log(user);
     // Attempt to login
     this.props.login(user);
     //this.props.returnErrors();

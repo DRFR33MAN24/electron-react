@@ -9,7 +9,7 @@ import { Component } from "react";
 import PropTypes from "prop-types";
 import { loadUser } from "./actions/authAction";
 import { returnErrors, clearErrors } from "./actions/errorAction";
-import { LOGIN_FAIL, RESET_FAIL, AUTH_ERROR } from "./actions/types";
+import { LOGIN_FAIL, RESET_FAIL, AUTH_ERROR, CLEAR_ERRORS } from "./actions/types";
 class App extends Component {
   static propTypes = {
     isAuthenticated: PropTypes.bool,
@@ -34,7 +34,8 @@ class App extends Component {
     else if (
       error.id === AUTH_ERROR ||
       error.id === LOGIN_FAIL ||
-      error.id === RESET_FAIL
+      error.id === RESET_FAIL ||
+      error.id === CLEAR_ERRORS
     ) {
       this.props.navigate("/Login");
     } else {

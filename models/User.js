@@ -22,6 +22,10 @@ const User = db.define(
 
       // allowNull defaults to true
     },
+    isManager: {
+      type: DataTypes.BOOLEAN,
+      allowNull: true
+    },
 
     email: {
       type: DataTypes.STRING,

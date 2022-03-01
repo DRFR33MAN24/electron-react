@@ -57,6 +57,7 @@ router.post("/", async (req, res) => {
           user: {
             id: user.id,
             name: user.name,
+            isManager: user.isManager,
             phone: user.phone,
             balance: user.balance,
             password: user.password,

@@ -1,5 +1,5 @@
 import axios from "axios";
-import { returnErrors } from "./errorAction";
+import { clearErrors, returnErrors } from "./errorAction";
 //import { sendEmail } from "./sendEmailAction";
 import {
   USER_LOADED,
@@ -14,7 +14,9 @@ import {
   UPDATE_FAIL,
   RESET_FAIL,
   RESET_SUCCESS,
-  GET_ERRORS
+  GET_ERRORS,
+  NO_ERROR,
+  CLEAR_ERRORS
 } from "./types";
 
 // Check token & load user
@@ -184,11 +186,14 @@ export const login = ({ phone, password }) => dispatch => {
   const body = JSON.stringify({ phone, password });
   axios
     .post("http://localhost:5000/api/auth", body, config)
-    .then(res =>
+    .then(res => {
+      console.log("NO_ERR");
+      dispatch({ type: NO_ERROR });
       dispatch({
         type: LOGIN_SUCCESS,
         payload: res.data
       })
+    }
     )
     .catch(err => {
       dispatch(
@@ -201,10 +206,12 @@ export const login = ({ phone, password }) => dispatch => {
 };
 
 // Logout User
-export const logout = () => {
-  return {
-    type: LOGOUT_SUCCESS
-  };
+export const logout = () => dispatch => {
+  // return {
+  //   type: LOGOUT_SUCCESS
+  // };
+  dispatch({ type: LOGOUT_SUCCESS });
+  dispatch(clearErrors())
 };
 
 // Setup config/headers and token

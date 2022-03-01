@@ -1,6 +1,10 @@
 import React, { Component } from "react";
 import { withRouter } from "../withRouter";
 import { Outlet } from "react-router-dom";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
+import { logout } from "../actions/authAction";
+import { clearErrors, returnErrors } from "../actions/errorAction";
 import {
   faWindowMaximize,
   faWindowClose,
@@ -9,20 +13,35 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import profileImg from "../Images/multitasking.svg";
+
 const { ipcRenderer } = window.require("electron");
 export const Context = React.createContext({});
 class MainPage extends Component {
   state = { pageTitle: "الشاشة الرئيسية" };
+
+  static propTypes = {
+    isAuthenticated: PropTypes.bool,
+    isLoading: PropTypes.bool,
+    error: PropTypes.object.isRequired,
+    logout: PropTypes.func.isRequired,
+    clearErrors: PropTypes.func.isRequired,
+    returnErrors: PropTypes.func.isRequired,
+    user: PropTypes.object
+  };
   componentWillMount() {
     ipcRenderer.send("changeWindowSize", 1000, 600, true);
   }
-  LogOut = () => {
-    // this.props.navigate("/Login");
-  };
+  // LogOut = () => {
+
+  // };
   ChangePageTitle = title => {
     this.setState({ pageTitle: title });
   };
   render() {
+    const user = this.props.user;
+
+    if (user === null) return (<div></div>);
+
     return (
       <div>
         <div class="bg-gray-200 d-flex flex-row   ">
@@ -349,9 +368,10 @@ class MainPage extends Component {
                 />
               </div>
               <div class="row text-light align-items-center justify-content-center">
-                <span className="text-warning">مدير</span>{" "}
+                {user.isManager ? (<span className="text-warning">مدير</span>) :
+                  (<span className="text-light">موظف</span>)}
                 <span className="text-dark">&nbsp;|&nbsp; </span>
-                <div className="text-light">اسم الشخص</div>
+                <div className="text-light"> {user.name}</div>
               </div>
             </div>
 
@@ -398,7 +418,7 @@ class MainPage extends Component {
               </a>
             </li>
             <li class="nav-item  mx-1">
-              <a class="nav-link " href="#/Login" onClick={this.LogOut}>
+              <a class="nav-link " href="#/Login" onClick={this.props.logout}>
                 <i class="fas fa-sign-out-alt fa-fw"></i>
                 <span>تسجيل الخروج</span>
               </a>
@@ -425,4 +445,15 @@ class MainPage extends Component {
   }
 }
 
-export default withRouter(MainPage);
+const mapStateToProps = state => ({
+  isAuthenticated: state.auth.isAuthenticated,
+  isLoading: state.auth.isLoading,
+  error: state.error,
+  user: state.auth.user
+});
+
+// export default compose(withRouter, connect(mapStateToProps, { login, returnErrors, clearErrors })(
+//   LoginPage));
+export default withRouter(
+  connect(mapStateToProps, { logout, returnErrors, clearErrors })(MainPage)
+);
