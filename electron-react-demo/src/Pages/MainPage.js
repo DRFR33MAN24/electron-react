@@ -342,6 +342,7 @@ class MainPage extends Component {
               <div>{this.state.pageTitle}</div>
             </nav>
             <div class="container justify-contnet-center w-100   " dir="rtl">
+
               <Context.Provider value={this.ChangePageTitle}>
                 <Outlet />
               </Context.Provider>
@@ -365,7 +366,7 @@ class MainPage extends Component {
             <div class="container mb-3">
               <div class="row d-flex align-items-center justify-content-center pt-2 ">
                 <img
-                  src={FormatImg(img)}
+                  src={"data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"}
                   className="rounded-circle image-profile border bg-white"
                   width="64"
                   height="64"

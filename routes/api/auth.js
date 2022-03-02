@@ -110,8 +110,14 @@ router.get("/img", auth, async (req, res) => {
   // res.contentType('image/jpg')
   // res.sendFile(profile);
   fs.readFile(profile, function (err, data) {
-    res.writeHead(200, { 'Content-Type': 'image/jpeg' });
+    if (err) {
+      console.log(err)
+      return res.end();
+    }
+    res.writeHead(200, { 'Content-Type': 'image/jpg' });
+
     res.write(data);
+
     return res.end();
   });
 

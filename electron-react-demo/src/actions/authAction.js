@@ -39,12 +39,13 @@ export const loadUser = () => (dispatch, getState) => {
           responseType: "arraybuffer"
         })
         .then(r => {
-          let data = Buffer.from(r.data).toString("base64");
+          let prefix = "data:" + r.headers["content-type"] + ";base64,";
+          let data = Buffer.from(r.data, 'binary').toString("base64");
           dispatch({ type: NO_ERROR });
           //console.log('Image api called', r.data);
           dispatch({
             type: IMG_LOADED,
-            payload: data
+            payload: prefix + data
           });
         });
     })

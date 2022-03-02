@@ -1,5 +1,5 @@
 function FormatImg(str) {
-  return str + "data:image/png;base64";
+  return str;
 }
 
 export default FormatImg;
