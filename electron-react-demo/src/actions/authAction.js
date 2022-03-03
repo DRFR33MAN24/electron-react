@@ -206,7 +206,7 @@ export const login = ({ phone, password }) => dispatch => {
   // Request body
   const body = JSON.stringify({ phone, password });
   axios
-    .post("http://localhost:5000/api/auth", body, config)
+    .post(`${proxy}api/auth`, body, config)
     .then(res => {
       console.log("NO_ERR");
       dispatch({ type: NO_ERROR });
