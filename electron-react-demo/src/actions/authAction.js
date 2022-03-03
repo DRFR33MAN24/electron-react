@@ -19,7 +19,7 @@ import {
   CLEAR_ERRORS,
   IMG_LOADED
 } from "./types";
-
+const proxy = "http://localhost:5000";
 // Check token & load user
 export const loadUser = () => (dispatch, getState) => {
   console.log("loadUser called");
@@ -27,7 +27,7 @@ export const loadUser = () => (dispatch, getState) => {
   dispatch({ type: USER_LOADING });
 
   axios
-    .get("http://localhost:5000/api/auth/user", tokenConfig(getState))
+    .get(`${proxy}/api/auth/user`, tokenConfig(getState))
     .then(res => {
       dispatch({
         type: USER_LOADED,
@@ -35,17 +35,14 @@ export const loadUser = () => (dispatch, getState) => {
       });
     })
     .then(res => {
-
       axios
-        .get("http://localhost:5000/api/auth/img", {
-          responseType: 'arraybuffer',
+        .get(`${proxy}/api/auth/img`, {
+          responseType: "arraybuffer",
           headers: tokenConfig(getState).headers
         })
         .then(r => {
-
-
           let prefix = "data:" + r.headers["content-type"] + ";base64,";
-          let data = Buffer.from(r.data, 'binary').toString("base64");
+          let data = Buffer.from(r.data, "binary").toString("base64");
           dispatch({ type: NO_ERROR });
 
           dispatch({
@@ -219,7 +216,7 @@ export const login = ({ phone, password }) => dispatch => {
       });
     })
     .then(res => {
-      dispatch(loadUser())
+      dispatch(loadUser());
     })
     .catch(err => {
       dispatch(
