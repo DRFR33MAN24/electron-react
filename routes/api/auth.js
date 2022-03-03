@@ -95,37 +95,21 @@ router.get("/user", auth, async (req, res) => {
   //   .then(user => res.json(user));
 });
 router.get("/img", auth, async (req, res) => {
-  console.log('Image Route Called');
-
-  const profile = path.join(__dirname, '../..', userFolder, req.user.id.toString(10), 'profile.jpg');
-  console.log(profile);
-  // fs.access(profile, (error) => {
-  //   //  if any error
-  //   if (error) {
-  //     console.log(error);
-  //     return;
-  //   }
-  // });
-
-  // res.contentType('image/jpg')
-  // res.sendFile(profile);
-  fs.readFile(profile, function (err, data) {
-    if (err) {
-      console.log(err)
-      return res.end();
+  //console.log('Image Route Called');
+  //console.log(req.headers);
+  const profile = path.join(__dirname, '../..', userFolder, req.user.id.toString(10), 'profile.png');
+  //console.log(profile);
+  fs.access(profile, (error) => {
+    //  if any error
+    if (error) {
+      console.log(error);
+      return;
     }
-    res.writeHead(200, { 'Content-Type': 'image/jpg' });
-
-    res.write(data);
-
-    return res.end();
   });
 
-
-  // res.json('');
-
-  // User.findById(req.user.id)
-  //   .select("-password")
-  //   .then(user => res.json(user));
+  res.contentType('png')
+  res.sendFile(profile);
 });
+
+
 module.exports = router;

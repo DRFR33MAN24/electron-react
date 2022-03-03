@@ -22,6 +22,7 @@ import {
 
 // Check token & load user
 export const loadUser = () => (dispatch, getState) => {
+  console.log("loadUser called");
   // User loading
   dispatch({ type: USER_LOADING });
 
@@ -34,15 +35,19 @@ export const loadUser = () => (dispatch, getState) => {
       });
     })
     .then(res => {
+
       axios
-        .get("http://localhost:5000/api/auth/img", tokenConfig(getState), {
-          responseType: "arraybuffer"
+        .get("http://localhost:5000/api/auth/img", {
+          responseType: 'arraybuffer',
+          headers: tokenConfig(getState).headers
         })
         .then(r => {
+
+
           let prefix = "data:" + r.headers["content-type"] + ";base64,";
           let data = Buffer.from(r.data, 'binary').toString("base64");
           dispatch({ type: NO_ERROR });
-          //console.log('Image api called', r.data);
+
           dispatch({
             type: IMG_LOADED,
             payload: prefix + data
@@ -212,6 +217,9 @@ export const login = ({ phone, password }) => dispatch => {
         type: LOGIN_SUCCESS,
         payload: res.data
       });
+    })
+    .then(res => {
+      dispatch(loadUser())
     })
     .catch(err => {
       dispatch(

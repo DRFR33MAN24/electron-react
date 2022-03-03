@@ -43,7 +43,7 @@ class MainPage extends Component {
   render() {
     const user = this.props.user;
     const img = this.props.profileImg;
-    console.log(img);
+    //console.log(img);
     if (user === null || img === null) return <div></div>;
 
     return (
@@ -366,7 +366,7 @@ class MainPage extends Component {
             <div class="container mb-3">
               <div class="row d-flex align-items-center justify-content-center pt-2 ">
                 <img
-                  src={"data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"}
+                  src={img}
                   className="rounded-circle image-profile border bg-white"
                   width="64"
                   height="64"
