@@ -4,15 +4,29 @@ const bcryptjs = require("bcryptjs");
 const config = require("config");
 const jwt = require("jsonwebtoken");
 const auth = require("../../middleware/auth");
-const multer = require('multer');
-const upload = multer({ dest: 'users_data/' });
+const multer = require("multer");
+
 //const axios = require("axios");
 const { stringify } = require("query-string");
 // User Model
 const User = require("../../models/User");
-const fs = require('fs');
+const fs = require("fs");
 const path = require("path");
-const userFolder = '/users_data';
+const userFolder = "./users_data";
+const storage = multer.diskStorage({
+  destination: function(req, file, cb) {
+    cb(null, `${userFolder}/${req.user.id}`);
+  },
+  filename: function(req, file, cb) {
+    const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
+    cb(
+      null,
+      file.fieldname + "-" + uniqueSuffix + path.extname(file.originalname)
+    );
+  }
+});
+
+const upload = multer({ storage: storage });
 // @route POST api/auth
 // @desc Auth the user
 // @acces Public
@@ -31,7 +45,6 @@ router.post("/", async (req, res) => {
   // if (body.data.success !== undefined && !body.data.success) {
   //   return res.status(400).json({ msg: "Failed captcha verification" });
   // }
-
 
   if (!phone || !password) {
     return res.status(400).json({ msg: "Please enter all fields" });
@@ -100,9 +113,15 @@ router.get("/user", auth, async (req, res) => {
 router.get("/img", auth, async (req, res) => {
   //console.log('Image Route Called');
   //console.log(req.headers);
-  const profile = path.join(__dirname, '../..', userFolder, req.user.id.toString(10), 'profile.png');
+  const profile = path.join(
+    __dirname,
+    "../..",
+    userFolder,
+    req.user.id.toString(10),
+    "profile.png"
+  );
   //console.log(profile);
-  fs.access(profile, (error) => {
+  fs.access(profile, error => {
     //  if any error
     if (error) {
       console.log(error);
@@ -110,15 +129,14 @@ router.get("/img", auth, async (req, res) => {
     }
   });
 
-  res.contentType('png')
+  res.contentType("png");
   res.sendFile(profile);
 });
 
-router.post("/idUpload", [auth, upload.single('file')], async (req, res) => {
-  console.log(req.file)
+router.post("/idUpload", [auth, upload.single("file")], async (req, res) => {
+  console.log(req.file);
   console.log(req.headers);
-  res.end('200');
+  res.end("200");
 });
-
 
 module.exports = router;
