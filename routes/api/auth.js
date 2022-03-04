@@ -4,6 +4,8 @@ const bcryptjs = require("bcryptjs");
 const config = require("config");
 const jwt = require("jsonwebtoken");
 const auth = require("../../middleware/auth");
+const multer = require('multer');
+const upload = multer({ dest: 'users_data/' });
 //const axios = require("axios");
 const { stringify } = require("query-string");
 // User Model
@@ -94,6 +96,7 @@ router.get("/user", auth, async (req, res) => {
   //   .select("-password")
   //   .then(user => res.json(user));
 });
+
 router.get("/img", auth, async (req, res) => {
   //console.log('Image Route Called');
   //console.log(req.headers);
@@ -109,6 +112,12 @@ router.get("/img", auth, async (req, res) => {
 
   res.contentType('png')
   res.sendFile(profile);
+});
+
+router.post("/idUpload", [auth, upload.single('file')], async (req, res) => {
+  console.log(req.file)
+  console.log(req.headers);
+  res.end('200');
 });
 
 

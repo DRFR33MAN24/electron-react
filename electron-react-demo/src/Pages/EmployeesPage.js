@@ -12,7 +12,14 @@ class EmployeesPage extends Component {
     }
 
     // specify upload params and url for your files
-    getUploadParams = ({ meta }) => { return { url: 'https://httpbin.org/post' } }
+    getUploadParams = ({ file, meta }) => {
+        // const body = new FormData()
+        // body.append('fileField', file)
+        return {
+            url: 'http://localhost:5000/api/auth/idUpload',
+            headers: { 'x-auth-token': localStorage.token }
+        }
+    }
 
     // called every time a file's `status` changes
     handleChangeStatus = ({ meta, file }, status) => { console.log(status, meta, file) }
@@ -80,8 +87,8 @@ class EmployeesPage extends Component {
                                         <Dropzone
                                             getUploadParams={this.getUploadParams}
                                             onChangeStatus={this.handleChangeStatus}
-                                            onSubmit={null}
-                                            inputWithFilesContent={null}
+                                            onSubmit={this.handleSubmit}
+
                                             accept="image/*,audio/*,video/*"
                                         />
                                     </div>
