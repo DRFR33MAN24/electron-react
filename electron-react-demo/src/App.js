@@ -6,6 +6,7 @@ import { Provider, connect } from "react-redux";
 
 import TitleBar from "./Components/TitleBar";
 import { Component } from "react";
+
 import PropTypes from "prop-types";
 import { loadUser } from "./actions/authAction";
 import { returnErrors, clearErrors } from "./actions/errorAction";
@@ -47,6 +48,7 @@ class App extends Component {
   render() {
     return (
       <div className="App ">
+
         {/* <TitleBar /> */}
         <Outlet />
       </div>

@@ -12,7 +12,8 @@ let loc = new LocalizedStrings({
         EmployeesPage: "صفحة الموظفين",
         EmployeeName: "اسم الموظف",
         nationality: 'الجنسية',
-        phoneNumber: "رقم الهاتف"
+        phoneNumber: "رقم الهاتف",
+        id: "صورة شخصية"
     }
 });
 
