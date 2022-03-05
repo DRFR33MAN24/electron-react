@@ -134,8 +134,8 @@ router.get("/img", auth, async (req, res) => {
 });
 
 router.post("/idUpload", [auth, upload.single("file")], async (req, res) => {
-  console.log(req.file);
-  console.log(req.headers);
+  // console.log(req.file);
+  // console.log(req.headers);
   res.end("200");
 });
 

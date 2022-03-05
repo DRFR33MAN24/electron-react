@@ -4,6 +4,52 @@ import Dropzone from "react-dropzone-uploader";
 import { Context } from "./MainPage";
 import loc from "../localization";
 
+const Preview = ({ meta }) => {
+  const { name, percent, status, previewUrl } = meta;
+  return (
+    <div>
+      {console.log(meta)}
+      {status === "uploading" ? (
+        <div class="progress">
+          <div
+            style={{ width: `${Math.round(percent)}%` }}
+            class="progress-bar"
+            role="progressbar"
+            aria-valuenow={Math.round(percent)}
+            aria-valuemin="0"
+            aria-valuemax="100"
+          >
+            {Math.round(percent)}%
+          </div>
+        </div>
+      ) : (
+        <img src={previewUrl} width="64" height="64" />
+      )}
+
+      <span>
+        {name}, {status}
+      </span>
+    </div>
+  );
+};
+const Layout = ({
+  input,
+  previews,
+  submitButton,
+  dropzoneProps,
+  files,
+  extra: { maxFiles }
+}) => {
+  return (
+    <div>
+      {previews}
+
+      <div {...dropzoneProps}>{files.length < maxFiles && input}</div>
+
+      {/* {files.length > 0 && submitButton} */}
+    </div>
+  );
+};
 class EmployeesPage extends Component {
   state = { name: loc.employees };
   static contextType = Context;
@@ -88,11 +134,16 @@ class EmployeesPage extends Component {
                   <p class="my-auto">{loc.id}</p>
                 </div>
                 <div class="col-9  d-flex justify-content-start align-items-start mb-2 ">
-                  <div className="w-75">
+                  <div className=" container w-75">
                     <Dropzone
+                      maxFiles={1}
+                      multiple={false}
+                      canCancel={false}
                       getUploadParams={this.getUploadParams}
                       onChangeStatus={this.handleChangeStatus}
                       onSubmit={this.handleSubmit}
+                      PreviewComponent={Preview}
+                      inputWithFilesContent={null}
                       inputContent={
                         <div className="container h4 text-gray-800">
                           {loc.dragUploadFile}
