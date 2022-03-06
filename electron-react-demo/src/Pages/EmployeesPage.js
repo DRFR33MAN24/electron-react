@@ -9,6 +9,7 @@ const Preview = ({ meta }) => {
   return (
     <div>
       {console.log(meta)}
+      <img src={previewUrl} className="" width="64" height="64" />
       {status === "uploading" ? (
         <div class="progress">
           <div
@@ -22,13 +23,11 @@ const Preview = ({ meta }) => {
             {Math.round(percent)}%
           </div>
         </div>
-      ) : (
-        <img src={previewUrl} width="64" height="64" />
-      )}
+      ) : null}
 
-      <span>
+      {/* <span>
         {name}, {status}
-      </span>
+      </span> */}
     </div>
   );
 };
@@ -42,9 +41,10 @@ const Layout = ({
 }) => {
   return (
     <div>
-      {previews}
-
-      <div {...dropzoneProps}>{files.length < maxFiles && input}</div>
+      <div {...dropzoneProps}>
+        {files.length < maxFiles && input}
+        {previews}
+      </div>
 
       {/* {files.length > 0 && submitButton} */}
     </div>
@@ -133,8 +133,8 @@ class EmployeesPage extends Component {
                 <div class="col-3 d-flex   justify-content-end align-items-start    ">
                   <p class="my-auto">{loc.id}</p>
                 </div>
-                <div class="col-9  d-flex justify-content-start align-items-start mb-2 ">
-                  <div className=" container w-75">
+                <div class="col-9  d-flex justify-content-center align-items-start mb-2 ">
+                  <div class="container-fluid border0">
                     <Dropzone
                       maxFiles={1}
                       multiple={false}
@@ -142,10 +142,11 @@ class EmployeesPage extends Component {
                       getUploadParams={this.getUploadParams}
                       onChangeStatus={this.handleChangeStatus}
                       onSubmit={this.handleSubmit}
+                      LayoutComponent={Layout}
                       PreviewComponent={Preview}
                       inputWithFilesContent={null}
                       inputContent={
-                        <div className="container h4 text-gray-800">
+                        <div className="text-middle  h5 text-gray-800">
                           {loc.dragUploadFile}
                         </div>
                       }

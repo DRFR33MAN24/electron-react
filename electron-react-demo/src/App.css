@@ -26,6 +26,9 @@
   border-radius: 64px;
   padding: 10px;
 }
+.drop-zone-preview {
+  position: relative;
+}
 .fa-icon {
   border-radius: 50%;
 }
