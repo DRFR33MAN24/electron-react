@@ -2,7 +2,7 @@
   text-align: center;
   /* background-image: linear-gradient(120deg, #fdfbfb 0%, #ebedee 100%); */
   background-color: transparent;
-  font-family: Helvetica, Arial, sans-serif;
+  font-family: shamel, Helvetica, Arial, sans-serif;
   width: 100%;
 }
 
@@ -28,6 +28,9 @@
 }
 .drop-zone-preview {
   position: relative;
+}
+.drop-zone-input {
+  font-family: shamel, Helvetica;
 }
 .fa-icon {
   border-radius: 50%;
@@ -88,4 +91,8 @@
   font-family: "arabic";
   src: local("arabic"),
     url(./fonts/arabic/BoutrosNewsH1-Bold.ttf) format("opentype");
+}
+@font-face {
+  font-family: "shamel";
+  src: local("arabic"), url(./fonts/arabic/shamel.ttf) format("opentype");
 }

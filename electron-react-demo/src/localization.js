@@ -11,7 +11,13 @@ let loc = new LocalizedStrings({
     nationality: "الجنسية",
     phoneNumber: "رقم الهاتف",
     id: "صورة شخصية",
-    dragUploadFile: "اضغط او اسحب لاضافة صورة"
+    dragUploadFile: "اضغط او اسحب لاضافة صورة",
+    employee: "موظف",
+    employeeType: "نوع الموظف",
+    choose: "اختر",
+    manager: "مدير",
+    save: "حفظ",
+    cancel: "الغاء"
   }
 });
 
