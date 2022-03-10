@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import { withRouter } from "../withRouter";
 import { Outlet } from "react-router-dom";
 import { connect } from "react-redux";
@@ -6,13 +6,7 @@ import PropTypes from "prop-types";
 import { logout } from "../actions/authAction";
 import { clearErrors, returnErrors } from "../actions/errorAction";
 
-import {
-  faWindowMaximize,
-  faWindowClose,
-  faWindowMinimize,
-  faSignOut
-} from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import loc from '../localization'
 import FormatImg from "../util";
 //import profileImg from "../Images/multitasking.svg";
 
@@ -46,6 +40,26 @@ class MainPage extends Component {
     //console.log(img);
     if (user === null || img === null) return <div></div>;
 
+
+    const managersSection = (
+      <Fragment>
+        <div class="sidebar-heading">قسم المدراء</div>
+
+        <li class="nav-item">
+          <a class="nav-link collapsed" href="#/Main/employees">
+            <i class="fas fa-fw fa-suitcase"></i>
+            <span>الموظفين</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#/Main/systemSettings">
+            <i class="fas fa-fw fa-wrench"></i>
+            <span>الإعدادات</span>
+          </a>
+        </li>
+        <hr class="sidebar-divider d-none d-md-block" />
+      </Fragment>
+    )
     return (
       <div>
         <div class="bg-gray-200 d-flex flex-row   ">
@@ -372,16 +386,18 @@ class MainPage extends Component {
                   height="64"
                 />
               </div>
-              <div class="row text-light align-items-center justify-content-center">
+              <div class="row text-light align-items-center justify-content-center mt-1">
+                <a className='text-light mr-1 '><i class="fas fa-fw fa-list"></i></a>
                 {user.isManager ? (
                   <span className="text-warning">مدير</span>
                 ) : (
                   <span className="text-light">موظف</span>
                 )}
-                <span className="text-dark">&nbsp;|&nbsp; </span>
+                <span className="text-dark">&nbsp;/&nbsp; </span>
                 <div className="text-light"> {user.name}</div>
               </div>
             </div>
+
 
             <hr class="sidebar-divider my-0" />
 
@@ -410,19 +426,11 @@ class MainPage extends Component {
             </li>
 
             <hr class="sidebar-divider" />
-
-            <div class="sidebar-heading">قسم المدراء</div>
-
-            <li class="nav-item">
-              <a class="nav-link collapsed" href="#/Main/employees">
-                <i class="fas fa-fw fa-suitcase"></i>
-                <span>الموظفين</span>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#/Main/systemSettings">
-                <i class="fas fa-fw fa-wrench"></i>
-                <span>الإعدادات</span>
+            {user.isManager ? managersSection : null}
+            <li class="nav-item  mx-1">
+              <a class="nav-link " href="#/userSettings" onClick={this.props.logout}>
+                <i class="fas fa-wrench fa-fw"></i>
+                <span>{loc.settings}</span>
               </a>
             </li>
             <li class="nav-item  mx-1">
@@ -432,7 +440,6 @@ class MainPage extends Component {
               </a>
             </li>
 
-            <hr class="sidebar-divider d-none d-md-block" />
 
             <div class="text-center d-none d-md-inline">
               <button
