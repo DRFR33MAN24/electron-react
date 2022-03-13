@@ -1,3 +1,5 @@
+
+
 export const GET_OFFERS = "GET_OFFERS";
 
 export const OFFERS_LOADING = "OFFERS_LOADING";
@@ -26,3 +28,5 @@ export const CLEAR_NOTIFICATIONS = "CLEAR_NOTIFICATIONS";
 export const GET_OFFER_ID = "GET_OFFER_ID";
 export const NO_ERROR = "NO_ERROR";
 export const IMG_LOADED = "IMG_LOADED";
+export const EMPLOYEES_LOADING = "EMPLOYEES_LOADING";
+export const EMPLOYEES_LOADED = "EMPLOYEES_LOADED";

@@ -13,7 +13,7 @@ const User = require("../../models/User");
 // @desc Register New User
 // @acces Public
 router.post("/", async (req, res) => {
-  console.log(req.body);
+  //console.log(req.body);
   const { name, phone, password, active } = req.body;
   // Verify URL
   // const query = stringify({

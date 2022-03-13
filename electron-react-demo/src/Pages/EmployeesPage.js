@@ -2,6 +2,11 @@ import React, { Component } from "react";
 import "react-dropzone-uploader/dist/styles.css";
 import Dropzone from "react-dropzone-uploader";
 import { Context } from "./MainPage";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
+import { logout } from "../actions/authAction";
+import { clearErrors, returnErrors } from "../actions/errorAction";
+import { getEmployees } from "../actions/employeesAction";
 import loc from "../localization";
 import TableFilter from "react-table-filter";
 import "react-table-filter/lib/styles.css";
@@ -62,11 +67,26 @@ class EmployeesPage extends Component {
     employeeType: "",
     employeeNationality: "",
     employeePhone: "",
-    empIDReady: false
+    empIDReady: false,
+    employees: []
+  };
+  static propTypes = {
+    isAuthenticated: PropTypes.bool,
+
+    error: PropTypes.object.isRequired,
+    getEmployees: PropTypes.func.isRequired,
+    clearErrors: PropTypes.func.isRequired,
+    returnErrors: PropTypes.func.isRequired,
+    employees: PropTypes.object,
+
   };
   static contextType = Context;
   componentWillMount() {
     this.context(this.state.name);
+  }
+  componentDidMount() {
+    // pass user id to filter employees by permissions imposed on the given user.
+    this.props.getEmployees();
   }
 
   // specify upload params and url for your files
@@ -102,7 +122,30 @@ class EmployeesPage extends Component {
   handleSubmit(event) {
     event.preventDefault();
   }
+  _filterUpdated(newData, filtersObject) {
+    this.setState({
+      employees: newData,
+    });
+  }
   render() {
+    this.setState({ employees: this.props.employees })
+    //employees = this.props.employees;
+    //if (employees === null || employees === undefined) employees = [];
+    const tableContent = this.state.employees.map((item, index) => {
+      return (
+        <tr key={'row_' + index}>
+          <td className="cell">
+            {item.id}
+          </td>
+          <td className="cell">
+            {item.name}
+          </td>
+          <td className="cell">
+            {item.phone}
+          </td>
+        </tr>
+      );
+    });
     return (
       <div className=" p-2">
         <div className="card ">
@@ -248,9 +291,37 @@ class EmployeesPage extends Component {
             </div>
           </div>
         </div>
+        <div class="card">
+          <table className='table'>
+            <thead>
+              <TableFilter
+                rows={this.state.employees}>
+
+                <th key="id" filterkey='id'>{loc.id}</th>
+                <th key="name" filterkey='name'>{loc.EmployeeName}</th>
+                <th key="phone" filterkey='phone'>{loc.phoneNumber}</th>
+
+              </TableFilter>
+            </thead>
+            <tbody>
+              {tableContent}
+            </tbody>
+          </table>
+        </div>
       </div>
     );
   }
 }
+const mapStateToProps = state => ({
+  error: state.error,
+  isAuthenticated: state.auth.isAuthenticated,
+  employees: state.employees.employees
+});
 
-export default EmployeesPage;
+// export default compose(withRouter, connect(mapStateToProps, { login, returnErrors, clearErrors })(
+//   LoginPage));
+export default
+  connect(mapStateToProps, { logout, returnErrors, clearErrors, getEmployees })(EmployeesPage)
+
+
+

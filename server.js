@@ -22,6 +22,7 @@ db.authenticate()
     });
 
 app.use("/api/users", require("./routes/api/users"));
+app.use("/api/employees", require("./routes/api/employees"));
 app.use("/api/auth", require("./routes/api/auth"));
 
 app.use("/api/stats", require("./routes/api/stats"));
