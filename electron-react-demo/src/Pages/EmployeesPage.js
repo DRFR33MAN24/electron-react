@@ -3,13 +3,18 @@ import "react-dropzone-uploader/dist/styles.css";
 import Dropzone from "react-dropzone-uploader";
 import { Context } from "./MainPage";
 import loc from "../localization";
-
+import TableFilter from "react-table-filter";
+import "react-table-filter/lib/styles.css";
 const Preview = ({ meta }) => {
   const { name, percent, status, previewUrl } = meta;
   return (
-    <div style={{ width: 200, height: 300 }}  >
-
-      <img src={previewUrl} width="200" height="300" style={{ objectFit: 'fill' }} />
+    <div style={{ width: 200, height: 300 }}>
+      <img
+        src={previewUrl}
+        width="200"
+        height="300"
+        style={{ objectFit: "fill" }}
+      />
       {/* {status === "uploading" ? (
         <div class="progress">
           <div
@@ -86,7 +91,7 @@ class EmployeesPage extends Component {
   // };
   handleInputChange(event) {
     const target = event.target;
-    const value = target.type === 'checkbox' ? target.checked : target.value;
+    const value = target.type === "checkbox" ? target.checked : target.value;
     const name = target.name;
 
     this.setState({
@@ -95,7 +100,6 @@ class EmployeesPage extends Component {
   }
 
   handleSubmit(event) {
-
     event.preventDefault();
   }
   render() {
@@ -110,11 +114,12 @@ class EmployeesPage extends Component {
             aria-expanded="false"
             aria-controls="collapseExample"
           >
-
-            <div class="text-right  mt-2 h4 text-gray-800">{loc.addEmployee}
-              <span><i class="fas fa-plus fa-sm fa-fw"></i></span></div>
-
-
+            <div class="text-right  mt-2 h4 text-gray-800">
+              {loc.addEmployee}
+              <span>
+                <i class="fas fa-plus fa-sm fa-fw"></i>
+              </span>
+            </div>
           </button>
           <div class="collapse" id="collapseExample">
             <div className="  text-right p-2 mb-3   ">
@@ -125,7 +130,7 @@ class EmployeesPage extends Component {
                 <div class="col-9  d-flex justify-content-start align-items-start mb-2 ">
                   <div class="input-group w-75 ">
                     <input
-                      name='employeeName'
+                      name="employeeName"
                       value={this.state.employeeName}
                       onChange={this.handleInputChange}
                       type="text"
@@ -140,7 +145,7 @@ class EmployeesPage extends Component {
                 <div class="col-9  d-flex justify-content-start align-items-start mb-2">
                   <div class="input-group w-75 ">
                     <input
-                      name='employeePhone'
+                      name="employeePhone"
                       value={this.state.employeePhone}
                       onChange={this.handleInputChange}
                       type="text"
@@ -154,13 +159,15 @@ class EmployeesPage extends Component {
                 </div>
                 <div class="col-9  d-flex justify-content-start align-items-start mb-2 ">
                   <select
-                    name='employeeNationality'
-                    id="inputState" class="form-control w-75"
+                    name="employeeNationality"
+                    id="inputState"
+                    class="form-control w-75"
                     value={this.state.employeeNationality}
-                    onChange={this.handleInputChange}>
+                    onChange={this.handleInputChange}
+                  >
                     <option selected>{loc.choose}</option>
-                    <option value='dd'>...</option>
-                    <option value='ss'>...</option>
+                    <option value="dd">...</option>
+                    <option value="ss">...</option>
                   </select>
                 </div>
                 <div class="col-3 d-flex   justify-content-end align-items-start    ">
@@ -169,7 +176,6 @@ class EmployeesPage extends Component {
                 <div class="col-9  d-flex justify-content-center align-items-start mb-2 ">
                   <div class="container w-75">
                     <Dropzone
-
                       maxFiles={1}
                       multiple={false}
                       canCancel={false}
@@ -194,28 +200,50 @@ class EmployeesPage extends Component {
                 <div class="col-9  d-flex justify-content-start align-items-start mb-2 ">
                   <div class="custom-control custom-radio custom-control-inline">
                     <input
-                      name='employeeType'
-                      value='manager'
-                      checked={this.state.employeeType === 'manager'}
+                      name="employeeType"
+                      value="manager"
+                      checked={this.state.employeeType === "manager"}
                       onChange={this.handleInputChange}
-                      type="radio" id="customRadioInline1" name="customRadioInline1" class="custom-control-input" />
-                    <label class="custom-control-label" for="customRadioInline1">{loc.manager}</label>
+                      type="radio"
+                      id="customRadioInline1"
+                      name="customRadioInline1"
+                      class="custom-control-input"
+                    />
+                    <label
+                      class="custom-control-label"
+                      for="customRadioInline1"
+                    >
+                      {loc.manager}
+                    </label>
                   </div>
                   <div class="custom-control custom-radio custom-control-inline">
                     <input
-                      name='employeeType'
-                      value='employee'
-                      checked={this.state.employeeType === 'employee'}
+                      name="employeeType"
+                      value="employee"
+                      checked={this.state.employeeType === "employee"}
                       onChange={this.handleInputChange}
-                      type="radio" id="customRadioInline2" name="customRadioInline1" class="custom-control-input" />
-                    <label class="custom-control-label" for="customRadioInline2">{loc.employee}</label>
+                      type="radio"
+                      id="customRadioInline2"
+                      name="customRadioInline1"
+                      class="custom-control-input"
+                    />
+                    <label
+                      class="custom-control-label"
+                      for="customRadioInline2"
+                    >
+                      {loc.employee}
+                    </label>
                   </div>
                 </div>
                 <div class="col-12 d-flex   justify-content-center    ">
-                  <button type='submit' className="btn bg-gradient-success text-gray-800" onClick={this.addEmployee}>{loc.save}</button>
+                  <button
+                    type="submit"
+                    className="btn bg-gradient-success text-gray-800"
+                    onClick={this.addEmployee}
+                  >
+                    {loc.save}
+                  </button>
                 </div>
-
-
               </div>
             </div>
           </div>

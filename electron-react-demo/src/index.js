@@ -1,14 +1,13 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
-import store from './store'
+import store from "./store";
 //import '../src/style.scss'
 import "./sb-admin-2.min.css";
-import $ from 'jquery';
-import Popper from 'popper.js';
-import 'bootstrap/dist/js/bootstrap.bundle.min';
+import $ from "jquery";
+import Popper from "popper.js";
 
-
+import "bootstrap/dist/js/bootstrap.bundle.min";
 
 import "./index.css";
 
