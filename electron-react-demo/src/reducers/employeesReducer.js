@@ -15,7 +15,7 @@ export default function (state = initialState, action) {
         case EMPLOYEES_LOADING:
 
             return {
-
+                ...state
 
             };
 

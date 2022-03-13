@@ -83,12 +83,14 @@ class EmployeesPage extends Component {
   static contextType = Context;
   componentWillMount() {
     this.context(this.state.name);
+    this.props.getEmployees();
   }
   componentDidMount() {
     // pass user id to filter employees by permissions imposed on the given user.
-    this.props.getEmployees();
   }
-
+  UNSAFE_componentWillReceiveProps() {
+    this.setState({ employees: this.props.employees })
+  }
   // specify upload params and url for your files
   getUploadParams = ({ file, meta }) => {
     // const body = new FormData()
@@ -128,9 +130,8 @@ class EmployeesPage extends Component {
     });
   }
   render() {
-    this.setState({ employees: this.props.employees })
-    //employees = this.props.employees;
-    //if (employees === null || employees === undefined) employees = [];
+
+
     const tableContent = this.state.employees.map((item, index) => {
       return (
         <tr key={'row_' + index}>
@@ -295,7 +296,8 @@ class EmployeesPage extends Component {
           <table className='table'>
             <thead>
               <TableFilter
-                rows={this.state.employees}>
+                rows={this.state.employees}
+                onFilterUpdate={this._filterUpdated}>
 
                 <th key="id" filterkey='id'>{loc.id}</th>
                 <th key="name" filterkey='name'>{loc.EmployeeName}</th>
