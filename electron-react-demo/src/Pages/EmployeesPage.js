@@ -83,12 +83,12 @@ class EmployeesPage extends Component {
       [name]: value
     });
     const formData = this.state;
-
+    console.log(formData);
     if (
-      formData.employeeName != "" ||
-      formData.employeePhone != "" ||
-      formData.employeeType != "" ||
-      formData.employeeNationality != ""
+      formData.employeeName.length != 0 &&
+      formData.employeePhone.length != 0 &&
+      formData.employeeType.length != 0 &&
+      formData.employeeNationality.length != 0
     ) {
       this.setState({ allowSubmit: true });
     } else {
