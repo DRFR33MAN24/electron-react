@@ -194,8 +194,8 @@ class EmployeesPage extends Component {
               </div>
               <div class="form-group">
                 <label for="employeeID">{loc.employeeType}</label>
-                <div class="custom-control custom-radio custom-control-inline">
-                                  <select
+
+                <select
                   name="employeeType"
                   id="inputState"
                   class="form-control w-75"
@@ -206,35 +206,6 @@ class EmployeesPage extends Component {
                   <option value="manager">{loc.manager}</option>
                   <option value="employee">{loc.employee}</option>
                 </select>
-                  {/* <input
-                    name="employeeType"
-                    value="manager"
-                    checked={this.state.employeeType === "manager"}
-                    onChange={this.handleInputChange}
-                    type="radio"
-                    id="customRadioInline1"
-                    name="customRadioInline1"
-                    class="custom-control-input"
-                  />
-                  <label class="custom-control-label" for="customRadioInline1">
-                    {loc.manager}
-                  </label>
-                </div>
-                <div class="custom-control custom-radio custom-control-inline">
-                  <input
-                    name="employeeType"
-                    value="employee"
-                    checked={this.state.employeeType === "employee"}
-                    onChange={this.handleInputChange}
-                    type="radio"
-                    id="customRadioInline2"
-                    name="customRadioInline1"
-                    class="custom-control-input"
-                  />
-                  <label class="custom-control-label" for="customRadioInline2">
-                    {loc.employee}
-                  </label>
-                </div> */}
               </div>
 
               <div class="form-group">
