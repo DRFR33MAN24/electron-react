@@ -76,6 +76,7 @@ class EmployeesPage extends Component {
   //   allFiles.forEach(f => f.remove());
   // };
   handleInputChange = event => {
+    console.log(event.target);
     const target = event.target;
     const value = target.type === "checkbox" ? target.checked : target.value;
     const name = target.name;
@@ -99,6 +100,9 @@ class EmployeesPage extends Component {
   handleSubmit(event) {
     event.preventDefault();
   }
+  addEmployee = () => {
+    console.log(this.state);
+  };
   _filterUpdated = (newData, filtersObject) => {
     this.setState({
       employees: newData
@@ -211,8 +215,8 @@ class EmployeesPage extends Component {
 
               <div class="form-group">
                 <button
+                  type="button"
                   disabled={this.state.allowSubmit}
-                  type="submit"
                   className="btn bg-gradient-success text-gray-800"
                   onClick={this.addEmployee}
                 >
