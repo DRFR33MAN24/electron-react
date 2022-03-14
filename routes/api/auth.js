@@ -15,6 +15,13 @@ const path = require("path");
 const userFolder = "./users_data";
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
+    fs.unlink(`${userFolder}/${req.user.id}` + '/draft', (err) => {
+      if (err) {
+        console.log("failed to delete local image:" + err);
+      } else {
+        console.log('successfully deleted local image');
+      }
+    });
     cb(null, `${userFolder}/${req.user.id}`);
   },
   filename: function (req, file, cb) {
