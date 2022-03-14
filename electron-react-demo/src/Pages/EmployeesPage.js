@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import "react-dropzone-uploader/dist/styles.css";
-import Dropzone from 'react-dropzone-uploader'
-import { Layout, Preview } from '../Components/CustomDropZone'
+import Dropzone from "react-dropzone-uploader";
+import { Layout, Preview } from "../Components/CustomDropZone";
 import { Context } from "./MainPage";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
@@ -24,7 +24,8 @@ class EmployeesPage extends Component {
     employeeNationality: "",
     employeePhone: "",
     empIDReady: false,
-    employees: []
+    employees: [],
+    allowSubmit: false
   };
   static propTypes = {
     isAuthenticated: PropTypes.bool,
@@ -33,8 +34,7 @@ class EmployeesPage extends Component {
     getEmployees: PropTypes.func.isRequired,
     clearErrors: PropTypes.func.isRequired,
     returnErrors: PropTypes.func.isRequired,
-    employees: PropTypes.object,
-
+    employees: PropTypes.object
   };
   static contextType = Context;
   componentWillMount() {
@@ -52,8 +52,7 @@ class EmployeesPage extends Component {
     const employees = this.props.employees;
 
     if (employees !== prevProps.employees) {
-
-      this.setState({ employees: employees })
+      this.setState({ employees: employees });
     }
   }
   // specify upload params and url for your files
@@ -80,41 +79,42 @@ class EmployeesPage extends Component {
     const target = event.target;
     const value = target.type === "checkbox" ? target.checked : target.value;
     const name = target.name;
-
     this.setState({
       [name]: value
     });
+    const formData = this.state;
+    if (
+      formData.employeeName != "" &&
+      formData.employeePhone != "" &&
+      formData.employeeType != ""
+    ) {
+      this.setState({ allowSubmit: true });
+    } else {
+      this.setState({ allowSubmit: false });
+    }
   }
 
   handleSubmit(event) {
     event.preventDefault();
   }
   _filterUpdated = (newData, filtersObject) => {
-
     this.setState({
       employees: newData
     });
-  }
+  };
   render() {
-
-    if (this.state.employees.length === 0) return (<div></div>);
+    if (this.state.employees.length === 0) return <div></div>;
     const tableContent = this.state.employees.map((item, index) => {
       return (
-        <tr key={'row_' + index}>
-          <td className="cell">
-            {item.id}
-          </td>
-          <td className="cell">
-            {item.name}
-          </td>
-          <td className="cell">
-            {item.phone}
-          </td>
+        <tr key={"row_" + index}>
+          <td className="cell">{item.id}</td>
+          <td className="cell">{item.name}</td>
+          <td className="cell">{item.phone}</td>
         </tr>
       );
     });
     return (
-      <div className="  p-2" >
+      <div className="  p-2">
         <div className="card ">
           <button
             class="btn btn-link bg-gradient-success text-gray-800"
@@ -132,7 +132,7 @@ class EmployeesPage extends Component {
             </div>
           </button>
           <div class="collapse" id="collapseExample">
-            <form className='m-2 text-right'>
+            <form className="m-2 text-right">
               <div class="form-group">
                 <label for="EmployeeName">{loc.EmployeeName}</label>
                 <input
@@ -143,7 +143,6 @@ class EmployeesPage extends Component {
                   class="form-control "
                   aria-label="Amount (to the nearest dollar)"
                 />
-
               </div>
               <div class="form-group">
                 <label for="employeePhone">{loc.phoneNumber}</label>
@@ -155,7 +154,6 @@ class EmployeesPage extends Component {
                   class="form-control "
                   aria-label="Amount (to the nearest dollar)"
                 />
-
               </div>
               <div class="form-group">
                 <label for="employeeNationality">{loc.nationality}</label>
@@ -170,7 +168,6 @@ class EmployeesPage extends Component {
                   <option value="dd">...</option>
                   <option value="ss">...</option>
                 </select>
-
               </div>
               <div class="form-group">
                 <label for="employeeID">{loc.personalId}</label>
@@ -193,7 +190,6 @@ class EmployeesPage extends Component {
                     accept="image/*,audio/*,video/*"
                   />
                 </div>
-
               </div>
               <div class="form-group">
                 <label for="employeeID">{loc.employeeType}</label>
@@ -208,10 +204,7 @@ class EmployeesPage extends Component {
                     name="customRadioInline1"
                     class="custom-control-input"
                   />
-                  <label
-                    class="custom-control-label"
-                    for="customRadioInline1"
-                  >
+                  <label class="custom-control-label" for="customRadioInline1">
                     {loc.manager}
                   </label>
                 </div>
@@ -226,16 +219,10 @@ class EmployeesPage extends Component {
                     name="customRadioInline1"
                     class="custom-control-input"
                   />
-                  <label
-                    class="custom-control-label"
-                    for="customRadioInline2"
-                  >
+                  <label class="custom-control-label" for="customRadioInline2">
                     {loc.employee}
                   </label>
                 </div>
-
-
-
               </div>
 
               <div class="form-group">
@@ -248,27 +235,27 @@ class EmployeesPage extends Component {
                 </button>
               </div>
             </form>
-
           </div>
         </div>
         <div class="card">
-          <table className='table'>
+          <table className="table">
             <thead>
-
               <TableFilter
                 rows={this.state.employees}
                 onFilterUpdate={this._filterUpdated}
               >
-
-                <th key="id" filterkey='id'>{loc.id}</th>
-                <th key="name" filterkey='name' showsearch={'true'}>{loc.EmployeeName}</th>
-                <th key="phone" filterkey='phone'>{loc.phoneNumber}</th>
-
+                <th key="id" filterkey="id">
+                  {loc.id}
+                </th>
+                <th key="name" filterkey="name" showsearch={"true"}>
+                  {loc.EmployeeName}
+                </th>
+                <th key="phone" filterkey="phone">
+                  {loc.phoneNumber}
+                </th>
               </TableFilter>
             </thead>
-            <tbody>
-              {tableContent}
-            </tbody>
+            <tbody>{tableContent}</tbody>
           </table>
         </div>
       </div>
@@ -283,8 +270,9 @@ const mapStateToProps = state => ({
 
 // export default compose(withRouter, connect(mapStateToProps, { login, returnErrors, clearErrors })(
 //   LoginPage));
-export default
-  connect(mapStateToProps, { logout, returnErrors, clearErrors, getEmployees })(EmployeesPage)
-
-
-
+export default connect(mapStateToProps, {
+  logout,
+  returnErrors,
+  clearErrors,
+  getEmployees
+})(EmployeesPage);
