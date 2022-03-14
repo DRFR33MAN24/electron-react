@@ -83,6 +83,7 @@ class EmployeesPage extends Component {
       [name]: value
     });
     const formData = this.state;
+    console.log(formData);
     if (
       formData.employeeName != "" &&
       formData.employeePhone != "" &&
@@ -194,7 +195,18 @@ class EmployeesPage extends Component {
               <div class="form-group">
                 <label for="employeeID">{loc.employeeType}</label>
                 <div class="custom-control custom-radio custom-control-inline">
-                  <input
+                                  <select
+                  name="employeeType"
+                  id="inputState"
+                  class="form-control w-75"
+                  value={this.state.employeeNationality}
+                  onChange={this.handleInputChange}
+                >
+                  <option selected>{loc.choose}</option>
+                  <option value="manager">{loc.manager}</option>
+                  <option value="employee">{loc.employee}</option>
+                </select>
+                  {/* <input
                     name="employeeType"
                     value="manager"
                     checked={this.state.employeeType === "manager"}
@@ -222,11 +234,12 @@ class EmployeesPage extends Component {
                   <label class="custom-control-label" for="customRadioInline2">
                     {loc.employee}
                   </label>
-                </div>
+                </div> */}
               </div>
 
               <div class="form-group">
                 <button
+                  disabled={this.state.allowSubmit}
                   type="submit"
                   className="btn bg-gradient-success text-gray-800"
                   onClick={this.addEmployee}
