@@ -29,8 +29,10 @@
 .drop-zone-preview {
   position: relative;
 }
-.drop-zone-input {
+.drop-zone {
   font-family: shamel, Helvetica;
+  width: 64px;
+  height: 64px;
 }
 .fa-icon {
   border-radius: 50%;

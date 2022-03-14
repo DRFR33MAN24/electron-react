@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import "react-dropzone-uploader/dist/styles.css";
-import Dropzone from "react-dropzone-uploader";
+import Dropzone from 'react-dropzone-uploader'
+import { Layout, Preview } from '../Components/CustomDropZone'
 import { Context } from "./MainPage";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
@@ -10,57 +11,12 @@ import { getEmployees } from "../actions/employeesAction";
 import loc from "../localization";
 import TableFilter from "react-table-filter";
 import "react-table-filter/lib/styles.css";
-const Preview = ({ meta }) => {
-  const { name, percent, status, previewUrl } = meta;
-  return (
-    <div style={{ width: 200, height: 300 }}>
-      <img
-        src={previewUrl}
-        width="200"
-        height="300"
-        style={{ objectFit: "fill" }}
-      />
-      {/* {status === "uploading" ? (
-        <div class="progress">
-          <div
-            style={{ width: `${Math.round(percent)}%` }}
-            class="progress-bar"
-            role="progressbar"
-            aria-valuenow={Math.round(percent)}
-            aria-valuemin="0"
-            aria-valuemax="100"
-          >
-            {Math.round(percent)}%
-          </div>
-        </div>
-      ) : null} */}
 
-      {/* <span>
-        {name}, {status}
-      </span> */}
-    </div>
-  );
-};
-const Layout = ({
-  input,
-  previews,
-  submitButton,
-  dropzoneProps,
-  files,
-  extra: { maxFiles }
-}) => {
-  return (
-    <div className="w-100">
-      <div {...dropzoneProps}>
-        {previews}
-        {files.length < maxFiles && input}
-      </div>
-
-      {/* {files.length > 0 && submitButton} */}
-    </div>
-  );
-};
 class EmployeesPage extends Component {
+  // constructor(props) {
+  //   super(props);
+  //   this.state.emplyees = this.props.employees;
+  // }
   state = {
     name: loc.employees,
     employeeName: "",
@@ -88,8 +44,17 @@ class EmployeesPage extends Component {
   componentDidMount() {
     // pass user id to filter employees by permissions imposed on the given user.
   }
-  UNSAFE_componentWillReceiveProps() {
-    this.setState({ employees: this.props.employees })
+  // UNSAFE_componentWillReceiveProps() {
+  //   this.setState({ employees: this.props.employees })
+
+  // }
+  componentDidUpdate(prevProps, prevState) {
+    const employees = this.props.employees;
+
+    if (employees !== prevProps.employees) {
+
+      this.setState({ employees: employees })
+    }
   }
   // specify upload params and url for your files
   getUploadParams = ({ file, meta }) => {
@@ -149,7 +114,7 @@ class EmployeesPage extends Component {
       );
     });
     return (
-      <div className=" p-2">
+      <div className="  p-2" >
         <div className="card ">
           <button
             class="btn btn-link bg-gradient-success text-gray-800"
@@ -167,130 +132,123 @@ class EmployeesPage extends Component {
             </div>
           </button>
           <div class="collapse" id="collapseExample">
-            <div className="  text-right p-2 mb-3   ">
-              <div class="row  flex-row py-2   ">
-                <div class="col-3 d-flex   justify-content-end align-items-start    ">
-                  <p class="my-auto">{loc.EmployeeName}</p>
-                </div>
-                <div class="col-9  d-flex justify-content-start align-items-start mb-2 ">
-                  <div class="input-group w-75 ">
-                    <input
-                      name="employeeName"
-                      value={this.state.employeeName}
-                      onChange={this.handleInputChange}
-                      type="text"
-                      class="form-control "
-                      aria-label="Amount (to the nearest dollar)"
-                    />
-                  </div>
-                </div>
-                <div class="col-3 d-flex   justify-content-end align-items-start    ">
-                  <p class="my-auto">{loc.phoneNumber}</p>
-                </div>
-                <div class="col-9  d-flex justify-content-start align-items-start mb-2">
-                  <div class="input-group w-75 ">
-                    <input
-                      name="employeePhone"
-                      value={this.state.employeePhone}
-                      onChange={this.handleInputChange}
-                      type="text"
-                      class="form-control "
-                      aria-label="Amount (to the nearest dollar)"
-                    />
-                  </div>
-                </div>
-                <div class="col-3 d-flex   justify-content-end align-items-start    ">
-                  <p class="my-auto">{loc.nationality}</p>
-                </div>
-                <div class="col-9  d-flex justify-content-start align-items-start mb-2 ">
-                  <select
-                    name="employeeNationality"
-                    id="inputState"
-                    class="form-control w-75"
-                    value={this.state.employeeNationality}
-                    onChange={this.handleInputChange}
-                  >
-                    <option selected>{loc.choose}</option>
-                    <option value="dd">...</option>
-                    <option value="ss">...</option>
-                  </select>
-                </div>
-                <div class="col-3 d-flex   justify-content-end align-items-start    ">
-                  <p class="my-auto">{loc.id}</p>
-                </div>
-                <div class="col-9  d-flex justify-content-center align-items-start mb-2 ">
-                  <div class="container w-75">
-                    <Dropzone
-                      maxFiles={1}
-                      multiple={false}
-                      canCancel={false}
-                      getUploadParams={this.getUploadParams}
-                      onChangeStatus={this.handleChangeStatus}
-                      onSubmit={this.handleSubmit}
-                      LayoutComponent={Layout}
-                      PreviewComponent={Preview}
-                      inputWithFilesContent={null}
-                      inputContent={
-                        <div className="text-middle drop-zone-input  h5 text-gray-800">
-                          {loc.dragUploadFile}
-                        </div>
-                      }
-                      accept="image/*,audio/*,video/*"
-                    />
-                  </div>
-                </div>
-                <div class="col-3 d-flex   justify-content-end align-items-start    ">
-                  <p class="my-auto">{loc.employeeType}</p>
-                </div>
-                <div class="col-9  d-flex justify-content-start align-items-start mb-2 ">
-                  <div class="custom-control custom-radio custom-control-inline">
-                    <input
-                      name="employeeType"
-                      value="manager"
-                      checked={this.state.employeeType === "manager"}
-                      onChange={this.handleInputChange}
-                      type="radio"
-                      id="customRadioInline1"
-                      name="customRadioInline1"
-                      class="custom-control-input"
-                    />
-                    <label
-                      class="custom-control-label"
-                      for="customRadioInline1"
-                    >
-                      {loc.manager}
-                    </label>
-                  </div>
-                  <div class="custom-control custom-radio custom-control-inline">
-                    <input
-                      name="employeeType"
-                      value="employee"
-                      checked={this.state.employeeType === "employee"}
-                      onChange={this.handleInputChange}
-                      type="radio"
-                      id="customRadioInline2"
-                      name="customRadioInline1"
-                      class="custom-control-input"
-                    />
-                    <label
-                      class="custom-control-label"
-                      for="customRadioInline2"
-                    >
-                      {loc.employee}
-                    </label>
-                  </div>
-                </div>
-                <div class="col-12 d-flex   justify-content-center    ">
-                  <button
-                    type="submit"
-                    className="btn bg-gradient-success text-gray-800"
-                    onClick={this.addEmployee}
-                  >
-                    {loc.save}
-                  </button>
-                </div>
+            <form className='m-2 text-right'>
+              <div class="form-group">
+                <label for="EmployeeName">{loc.EmployeeName}</label>
+                <input
+                  name="employeeName"
+                  value={this.state.employeeName}
+                  onChange={this.handleInputChange}
+                  type="text"
+                  class="form-control "
+                  aria-label="Amount (to the nearest dollar)"
+                />
+
               </div>
-            </div>
+              <div class="form-group">
+                <label for="employeePhone">{loc.phoneNumber}</label>
+                <input
+                  name="employeePhone"
+                  value={this.state.employeePhone}
+                  onChange={this.handleInputChange}
+                  type="text"
+                  class="form-control "
+                  aria-label="Amount (to the nearest dollar)"
+                />
+
+              </div>
+              <div class="form-group">
+                <label for="employeeNationality">{loc.nationality}</label>
+                <select
+                  name="employeeNationality"
+                  id="inputState"
+                  class="form-control w-75"
+                  value={this.state.employeeNationality}
+                  onChange={this.handleInputChange}
+                >
+                  <option selected>{loc.choose}</option>
+                  <option value="dd">...</option>
+                  <option value="ss">...</option>
+                </select>
+
+              </div>
+              <div class="form-group">
+                <label for="employeeID">{loc.personalId}</label>
+                <div class="drop-zone m-1">
+                  <Dropzone
+                    maxFiles={1}
+                    multiple={false}
+                    canCancel={false}
+                    getUploadParams={this.getUploadParams}
+                    onChangeStatus={this.handleChangeStatus}
+                    onSubmit={this.handleSubmit}
+                    // LayoutComponent={Layout}
+                    // PreviewComponent={Preview}
+                    inputWithFilesContent={null}
+                    inputContent={
+                      <div className="text-middle drop-zone-input  h6 text-gray-800">
+                        {loc.dragUploadFile}
+                      </div>
+                    }
+                    accept="image/*,audio/*,video/*"
+                  />
+                </div>
+
+              </div>
+              <div class="form-group">
+                <label for="employeeID">{loc.employeeType}</label>
+                <div class="custom-control custom-radio custom-control-inline">
+                  <input
+                    name="employeeType"
+                    value="manager"
+                    checked={this.state.employeeType === "manager"}
+                    onChange={this.handleInputChange}
+                    type="radio"
+                    id="customRadioInline1"
+                    name="customRadioInline1"
+                    class="custom-control-input"
+                  />
+                  <label
+                    class="custom-control-label"
+                    for="customRadioInline1"
+                  >
+                    {loc.manager}
+                  </label>
+                </div>
+                <div class="custom-control custom-radio custom-control-inline">
+                  <input
+                    name="employeeType"
+                    value="employee"
+                    checked={this.state.employeeType === "employee"}
+                    onChange={this.handleInputChange}
+                    type="radio"
+                    id="customRadioInline2"
+                    name="customRadioInline1"
+                    class="custom-control-input"
+                  />
+                  <label
+                    class="custom-control-label"
+                    for="customRadioInline2"
+                  >
+                    {loc.employee}
+                  </label>
+                </div>
+
+
+
+              </div>
+
+              <div class="form-group">
+                <button
+                  type="submit"
+                  className="btn bg-gradient-success text-gray-800"
+                  onClick={this.addEmployee}
+                >
+                  {loc.save}
+                </button>
+              </div>
+            </form>
+
           </div>
         </div>
         <div class="card">

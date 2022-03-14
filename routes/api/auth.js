@@ -12,17 +12,25 @@ const { stringify } = require("query-string");
 const User = require("../../models/User");
 const fs = require("fs");
 const path = require("path");
+const glob = require('glob')
 const userFolder = "./users_data";
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    fs.unlink(`${userFolder}/${req.user.id}` + '/draft', (err) => {
-      if (err) {
-        console.log("failed to delete local image:" + err);
-      } else {
-        console.log('successfully deleted local image');
-      }
-    });
-    cb(null, `${userFolder}/${req.user.id}`);
+    const profilePath = `${userFolder}/${req.user.id}`;
+    glob(profilePath + "/draft.*", function (er, files) {
+      files.map(file => {
+        fs.unlinkSync(file, (err) => {
+          if (err) {
+            console.log("failed to delete local image:" + err);
+          } else {
+            console.log('successfully deleted local image');
+          }
+        });
+      })
+
+    })
+
+    cb(null, profilePath);
   },
   filename: function (req, file, cb) {
     const draft = 'draft';

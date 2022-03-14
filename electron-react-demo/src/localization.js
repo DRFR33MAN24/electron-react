@@ -10,7 +10,7 @@ let loc = new LocalizedStrings({
     EmployeeName: "اسم الموظف",
     nationality: "الجنسية",
     phoneNumber: "رقم الهاتف",
-    id: "صورة شخصية",
+    personalId: "صورة شخصية",
     dragUploadFile: "اضغط او اسحب لاضافة صورة",
     employee: "موظف",
     employeeType: "نوع الموظف",
