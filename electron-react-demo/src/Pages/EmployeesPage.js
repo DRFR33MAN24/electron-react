@@ -124,14 +124,15 @@ class EmployeesPage extends Component {
   handleSubmit(event) {
     event.preventDefault();
   }
-  _filterUpdated(newData, filtersObject) {
+  _filterUpdated = (newData, filtersObject) => {
+
     this.setState({
-      employees: newData,
+      employees: newData
     });
   }
   render() {
 
-
+    if (this.state.employees.length === 0) return (<div></div>);
     const tableContent = this.state.employees.map((item, index) => {
       return (
         <tr key={'row_' + index}>
@@ -295,12 +296,14 @@ class EmployeesPage extends Component {
         <div class="card">
           <table className='table'>
             <thead>
+
               <TableFilter
                 rows={this.state.employees}
-                onFilterUpdate={this._filterUpdated}>
+                onFilterUpdate={this._filterUpdated}
+              >
 
                 <th key="id" filterkey='id'>{loc.id}</th>
-                <th key="name" filterkey='name'>{loc.EmployeeName}</th>
+                <th key="name" filterkey='name' showsearch={'true'}>{loc.EmployeeName}</th>
                 <th key="phone" filterkey='phone'>{loc.phoneNumber}</th>
 
               </TableFilter>
