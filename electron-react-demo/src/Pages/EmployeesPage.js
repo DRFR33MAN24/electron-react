@@ -76,7 +76,6 @@ class EmployeesPage extends Component {
   //   allFiles.forEach(f => f.remove());
   // };
   handleInputChange = event => {
-    console.log(event.target);
     const target = event.target;
     const value = target.type === "checkbox" ? target.checked : target.value;
     const name = target.name;
@@ -84,7 +83,7 @@ class EmployeesPage extends Component {
       [name]: value
     });
     const formData = this.state;
-    console.log(formData);
+
     if (
       formData.employeeName != "" ||
       formData.employeePhone != "" ||
@@ -102,6 +101,14 @@ class EmployeesPage extends Component {
   }
   addEmployee = () => {
     console.log(this.state);
+  };
+  clearForm = () => {
+    this.setState({
+      employeeName: "",
+      employeeNationality: "",
+      employeeType: "",
+      employeePhone: ""
+    });
   };
   _filterUpdated = (newData, filtersObject) => {
     this.setState({
@@ -213,14 +220,21 @@ class EmployeesPage extends Component {
                 </select>
               </div>
 
-              <div class="form-group">
+              <div class="form-group d-flex justify-content-center ">
                 <button
                   type="button"
                   disabled={this.state.allowSubmit}
-                  className="btn bg-gradient-success text-gray-800"
+                  className="btn bg-gradient-success text-gray-800 mx-1"
                   onClick={this.addEmployee}
                 >
                   {loc.save}
+                </button>
+                <button
+                  type="button"
+                  className="btn bg-gradient-success text-gray-800 mx-1"
+                  onClick={this.clearForm}
+                >
+                  {loc.cancel}
                 </button>
               </div>
             </form>
