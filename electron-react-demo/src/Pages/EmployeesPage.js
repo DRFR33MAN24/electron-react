@@ -75,7 +75,7 @@ class EmployeesPage extends Component {
   //   console.log(files.map(f => f.meta));
   //   allFiles.forEach(f => f.remove());
   // };
-  handleInputChange(event) {
+  handleInputChange = event => {
     const target = event.target;
     const value = target.type === "checkbox" ? target.checked : target.value;
     const name = target.name;
@@ -85,15 +85,16 @@ class EmployeesPage extends Component {
     const formData = this.state;
     console.log(formData);
     if (
-      formData.employeeName != "" &&
-      formData.employeePhone != "" &&
-      formData.employeeType != ""
+      formData.employeeName != "" ||
+      formData.employeePhone != "" ||
+      formData.employeeType != "" ||
+      formData.employeeNationality != ""
     ) {
       this.setState({ allowSubmit: true });
     } else {
       this.setState({ allowSubmit: false });
     }
-  }
+  };
 
   handleSubmit(event) {
     event.preventDefault();
@@ -166,8 +167,8 @@ class EmployeesPage extends Component {
                   onChange={this.handleInputChange}
                 >
                   <option selected>{loc.choose}</option>
-                  <option value="dd">...</option>
-                  <option value="ss">...</option>
+                  <option value="SY">{loc.syrian}</option>
+                  <option value="US">{loc.american}</option>
                 </select>
               </div>
               <div class="form-group">
@@ -199,7 +200,7 @@ class EmployeesPage extends Component {
                   name="employeeType"
                   id="inputState"
                   class="form-control w-75"
-                  value={this.state.employeeNationality}
+                  value={this.state.employeeType}
                   onChange={this.handleInputChange}
                 >
                   <option selected>{loc.choose}</option>

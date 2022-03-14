@@ -18,7 +18,9 @@ let loc = new LocalizedStrings({
     manager: "مدير",
     save: "حفظ",
     cancel: "الغاء",
-    id: "الرقم"
+    id: "الرقم",
+    syrian: "سوري",
+    american: "امريكي"
   }
 });
 
