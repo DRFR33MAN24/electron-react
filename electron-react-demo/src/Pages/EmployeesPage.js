@@ -81,7 +81,6 @@ class EmployeesPage extends Component {
     this.setState({
       [name]: value
     });
-
   };
   isFormEmpty = () => {
     const formData = this.state;
@@ -97,7 +96,7 @@ class EmployeesPage extends Component {
     } else {
       return true;
     }
-  }
+  };
   handleSubmit(event) {
     event.preventDefault();
   }
@@ -118,7 +117,6 @@ class EmployeesPage extends Component {
     });
   };
   render() {
-
     if (this.state.employees.length === 0) return <div></div>;
     const tableContent = this.state.employees.map((item, index) => {
       return (
@@ -187,9 +185,26 @@ class EmployeesPage extends Component {
               </div>
               <div class="form-group">
                 <label for="employeeID">{loc.personalId}</label>
-                <div class=" bg-dark">
-                  <Dropzone
 
+                <div class="d-flex justify-content-start">
+                  <Dropzone
+                    styles={{
+                      dropzone: {
+                        position: "relative",
+
+                        width: "64px",
+                        height: "64px",
+                        minHeight: "64px",
+
+                        justifyContent: "center"
+                      },
+                      input: {
+                        position: "static",
+
+                        top: 0,
+                        left: 0
+                      }
+                    }}
                     maxFiles={1}
                     multiple={false}
                     canCancel={false}
@@ -200,7 +215,7 @@ class EmployeesPage extends Component {
                     PreviewComponent={Preview}
                     inputWithFilesContent={null}
                     inputContent={
-                      <div className="text-middle drop-zone-input  h6 text-gray-800">
+                      <div>
                         {/* {loc.dragUploadFile} */}
                         <i class="fas fa-plus fa-sm fa-fw"></i>
                       </div>
@@ -219,7 +234,9 @@ class EmployeesPage extends Component {
                   value={this.state.employeeType}
                   onChange={this.handleInputChange}
                 >
-                  <option selected value="">{loc.choose}</option>
+                  <option selected value="">
+                    {loc.choose}
+                  </option>
                   <option value="manager">{loc.manager}</option>
                   <option value="employee">{loc.employee}</option>
                 </select>
