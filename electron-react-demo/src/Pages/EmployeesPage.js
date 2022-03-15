@@ -192,9 +192,9 @@ class EmployeesPage extends Component {
                       dropzone: {
                         position: "relative",
 
-                        width: "64px",
-                        height: "64px",
-                        minHeight: "64px",
+                        width: "100px",
+                        height: "100px",
+                        minHeight: "100px",
 
                         justifyContent: "center"
                       },

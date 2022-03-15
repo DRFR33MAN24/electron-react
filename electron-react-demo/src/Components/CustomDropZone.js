@@ -5,8 +5,8 @@ export const Preview = ({ meta }) => {
   return (
     <div>
       <img
-        width="64"
-        height="64"
+        width="100"
+        height="100"
         src={previewUrl}
         style={{
           position: "absolute",
@@ -19,13 +19,13 @@ export const Preview = ({ meta }) => {
       <div
         style={{
           position: "absolute",
-          top: 0,
+          top: `-${percent}px`,
           left: 0,
           opacity: 0.5,
           zIndex: 600,
           backgroundColor: "gray",
-          minHeight: "64px",
-          minWidth: "64px"
+          minHeight: "100px",
+          minWidth: "100px"
         }}
       ></div>
     </div>
