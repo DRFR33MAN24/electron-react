@@ -24,8 +24,7 @@ class EmployeesPage extends Component {
     employeeNationality: "",
     employeePhone: "",
     empIDReady: false,
-    employees: [],
-    allowSubmit: false
+    employees: []
   };
   static propTypes = {
     isAuthenticated: PropTypes.bool,
@@ -82,20 +81,23 @@ class EmployeesPage extends Component {
     this.setState({
       [name]: value
     });
-    const formData = this.state;
-    console.log(formData);
-    if (
-      formData.employeeName.length != 0 &&
-      formData.employeePhone.length != 0 &&
-      formData.employeeType.length != 0 &&
-      formData.employeeNationality.length != 0
-    ) {
-      this.setState({ allowSubmit: true });
-    } else {
-      this.setState({ allowSubmit: false });
-    }
-  };
 
+  };
+  isFormEmpty = () => {
+    const formData = this.state;
+    //console.log(formData);
+
+    if (
+      formData.employeeName.length !== 0 &&
+      formData.employeePhone.length !== 0 &&
+      formData.employeeType.length !== 0 &&
+      formData.employeeNationality.length !== 0
+    ) {
+      return false;
+    } else {
+      return true;
+    }
+  }
   handleSubmit(event) {
     event.preventDefault();
   }
@@ -116,6 +118,7 @@ class EmployeesPage extends Component {
     });
   };
   render() {
+
     if (this.state.employees.length === 0) return <div></div>;
     const tableContent = this.state.employees.map((item, index) => {
       return (
@@ -184,20 +187,22 @@ class EmployeesPage extends Component {
               </div>
               <div class="form-group">
                 <label for="employeeID">{loc.personalId}</label>
-                <div class="drop-zone m-1">
+                <div class=" bg-dark">
                   <Dropzone
+
                     maxFiles={1}
                     multiple={false}
                     canCancel={false}
                     getUploadParams={this.getUploadParams}
                     onChangeStatus={this.handleChangeStatus}
                     onSubmit={this.handleSubmit}
-                    // LayoutComponent={Layout}
-                    // PreviewComponent={Preview}
+                    LayoutComponent={Layout}
+                    PreviewComponent={Preview}
                     inputWithFilesContent={null}
                     inputContent={
                       <div className="text-middle drop-zone-input  h6 text-gray-800">
-                        {loc.dragUploadFile}
+                        {/* {loc.dragUploadFile} */}
+                        <i class="fas fa-plus fa-sm fa-fw"></i>
                       </div>
                     }
                     accept="image/*,audio/*,video/*"
@@ -214,7 +219,7 @@ class EmployeesPage extends Component {
                   value={this.state.employeeType}
                   onChange={this.handleInputChange}
                 >
-                  <option selected>{loc.choose}</option>
+                  <option selected value="">{loc.choose}</option>
                   <option value="manager">{loc.manager}</option>
                   <option value="employee">{loc.employee}</option>
                 </select>
@@ -223,7 +228,7 @@ class EmployeesPage extends Component {
               <div class="form-group d-flex justify-content-center ">
                 <button
                   type="button"
-                  disabled={this.state.allowSubmit}
+                  disabled={this.isFormEmpty()}
                   className="btn bg-gradient-success text-gray-800 mx-1"
                   onClick={this.addEmployee}
                 >

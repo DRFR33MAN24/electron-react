@@ -40,9 +40,9 @@ export const Layout = ({
     extra: { maxFiles }
 }) => {
     return (
-        <div>
+        <div className="">
             <div {...dropzoneProps}>
-                {/* {previews} */}
+                {previews}
                 {files.length < maxFiles && input}
             </div>
 

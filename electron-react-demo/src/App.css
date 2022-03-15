@@ -29,10 +29,30 @@
 .drop-zone-preview {
   position: relative;
 }
-.drop-zone {
+.drop-zone-input {
   font-family: shamel, Helvetica;
+}
+.drop-zone {
   width: 64px;
   height: 64px;
+}
+.dzu-dropzoneActive {
+  background-color: #ffffff;
+  border-color: #000000;
+}
+.dzu-dropzone {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  min-height: 120px;
+  overflow: scroll;
+  margin: 0 auto;
+  position: relative;
+  box-sizing: border-box;
+  transition: all 0.15s linear;
+  border: 20px solid #f6fffd;
+  border-radius: 40px;
 }
 .fa-icon {
   border-radius: 50%;
