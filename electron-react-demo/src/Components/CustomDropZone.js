@@ -28,6 +28,19 @@ export const Preview = ({ meta }) => {
           minWidth: "100px"
         }}
       ></div>
+      <div
+        style={{
+          position: "absolute",
+          alignItems: "center",
+          top: "50wv",
+          left: 0,
+          backgroundColor: "transparent",
+          zIndex: 700,
+
+          minHeight: "100px",
+          minWidth: "100px"
+        }}
+      >{`${percent}%`}</div>
     </div>
   );
 };
