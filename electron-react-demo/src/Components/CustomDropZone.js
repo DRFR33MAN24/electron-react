@@ -31,16 +31,17 @@ export const Preview = ({ meta }) => {
       <div
         style={{
           position: "absolute",
-          alignItems: "center",
-          top: "50wv",
+          lineHeight: '100px',
+          textAlign: 'center',
+          top: 0,
           left: 0,
           backgroundColor: "transparent",
           zIndex: 700,
-
+          color: 'white',
           minHeight: "100px",
           minWidth: "100px"
         }}
-      >{`${percent}%`}</div>
+      >{`${Math.round(percent)}%`}</div>
     </div>
   );
 };

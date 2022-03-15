@@ -7,7 +7,7 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { logout } from "../actions/authAction";
 import { clearErrors, returnErrors } from "../actions/errorAction";
-import { getEmployees } from "../actions/employeesAction";
+import { getEmployees, addEmployee } from "../actions/employeesAction";
 import loc from "../localization";
 import TableFilter from "react-table-filter";
 import "react-table-filter/lib/styles.css";
@@ -67,6 +67,9 @@ class EmployeesPage extends Component {
   // called every time a file's `status` changes
   handleChangeStatus = ({ meta, file }, status) => {
     console.log(status, meta, file);
+    if (status === 'done') {
+      this.setState({ empIDReady: true })
+    }
   };
 
   // receives array of files that are done uploading when submit button is clicked
@@ -90,7 +93,8 @@ class EmployeesPage extends Component {
       formData.employeeName.length !== 0 &&
       formData.employeePhone.length !== 0 &&
       formData.employeeType.length !== 0 &&
-      formData.employeeNationality.length !== 0
+      formData.employeeNationality.length !== 0 &&
+      formData.empIDReady !== false
     ) {
       return false;
     } else {
@@ -108,7 +112,8 @@ class EmployeesPage extends Component {
       employeeName: "",
       employeeNationality: "",
       employeeType: "",
-      employeePhone: ""
+      employeePhone: "",
+      empIDReady: false
     });
   };
   _filterUpdated = (newData, filtersObject) => {
