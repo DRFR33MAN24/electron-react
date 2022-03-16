@@ -25,7 +25,7 @@ router.post("/", async (req, res) => {
 // @desc Register New User
 // @acces Public
 router.post("/add", async (req, res) => {
-    //console.log(req.body);
+    console.log('add Employee called');
     const { name, phone, password, type, nationality } = req.body;
     // Verify URL
     // const query = stringify({
@@ -40,6 +40,9 @@ router.post("/add", async (req, res) => {
     // if (body.data.success !== undefined && !body.data.success) {
     //   return res.status(400).json({ msg: "Failed captcha verification" });
     // }
+    if (req.user.isManager !== 'manager') {
+        return res.status(400).json({ msg: "Not allowed to manage employees" });
+    }
 
     if (!name || !phone || !password || !type || !nationality) {
         return res.status(400).json({ msg: "Please enter all fields" });

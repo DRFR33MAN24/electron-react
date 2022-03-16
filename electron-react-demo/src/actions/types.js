@@ -30,3 +30,4 @@ export const NO_ERROR = "NO_ERROR";
 export const IMG_LOADED = "IMG_LOADED";
 export const EMPLOYEES_LOADING = "EMPLOYEES_LOADING";
 export const EMPLOYEES_LOADED = "EMPLOYEES_LOADED";
+export const EMPLOYEE_ADDED = "EMPLOYEE_ADDED";

@@ -1,7 +1,7 @@
 import axios from "axios";
 import {
     AUTH_ERROR,
-
+    EMPLOYEE_ADDED,
     EMPLOYEES_LOADED,
     EMPLOYEES_LOADING
 } from './types'
@@ -50,7 +50,7 @@ export const addEmployee = ({ name, phone, password, nationality, type }) => (di
         .then(res => {
 
             dispatch({
-                type: EMPLOYEES_ADDED,
+                type: EMPLOYEE_ADDED,
                 payload: res.data
             });
         })

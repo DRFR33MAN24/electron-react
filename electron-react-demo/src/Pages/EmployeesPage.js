@@ -23,6 +23,7 @@ class EmployeesPage extends Component {
     employeeType: "",
     employeeNationality: "",
     employeePhone: "",
+    employeePassword: '',
     empIDReady: false,
     employees: []
   };
@@ -31,6 +32,7 @@ class EmployeesPage extends Component {
 
     error: PropTypes.object.isRequired,
     getEmployees: PropTypes.func.isRequired,
+    addEmployee: PropTypes.func.isRequired,
     clearErrors: PropTypes.func.isRequired,
     returnErrors: PropTypes.func.isRequired,
     employees: PropTypes.object
@@ -94,6 +96,7 @@ class EmployeesPage extends Component {
       formData.employeePhone.length !== 0 &&
       formData.employeeType.length !== 0 &&
       formData.employeeNationality.length !== 0 &&
+      formData.employeePassword.length !== 0 &&
       formData.empIDReady !== false
     ) {
       return false;
@@ -105,7 +108,14 @@ class EmployeesPage extends Component {
     event.preventDefault();
   }
   addEmployee = () => {
-    console.log(this.state);
+    let e = this.state;
+    this.props.addEmployee({
+      name: e.employeeName,
+      phone: e.employeePhone,
+      password: e.employeePassword,
+      type: e.employeeType,
+      nationality: e.employeeNationality
+    })
   };
   clearForm = () => {
     this.setState({
@@ -113,6 +123,7 @@ class EmployeesPage extends Component {
       employeeNationality: "",
       employeeType: "",
       employeePhone: "",
+      employeePassword: '',
       empIDReady: false
     });
   };
@@ -170,6 +181,17 @@ class EmployeesPage extends Component {
                   value={this.state.employeePhone}
                   onChange={this.handleInputChange}
                   type="text"
+                  class="form-control "
+                  aria-label="Amount (to the nearest dollar)"
+                />
+              </div>
+              <div class="form-group">
+                <label for="employeePassword">{loc.password}</label>
+                <input
+                  name="employeePassword"
+                  value={this.state.employeePassword}
+                  onChange={this.handleInputChange}
+                  type="password"
                   class="form-control "
                   aria-label="Amount (to the nearest dollar)"
                 />
@@ -304,5 +326,6 @@ export default connect(mapStateToProps, {
   logout,
   returnErrors,
   clearErrors,
-  getEmployees
+  getEmployees,
+  addEmployee
 })(EmployeesPage);

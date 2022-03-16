@@ -77,7 +77,7 @@ router.post("/", async (req, res) => {
   bcryptjs.compare(password, user.password).then(isMatch => {
     if (!isMatch) return res.status(400).json({ msg: "Invalid credentials" });
     jwt.sign(
-      { id: user.id },
+      { id: user.id, isManager: user.isManager },
       config.get("jwtSecret"),
       {
         expiresIn: 604800
