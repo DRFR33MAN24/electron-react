@@ -26,7 +26,8 @@ class EmployeesPage extends Component {
     employeePassword: "",
     empIDReady: false,
     employees: [],
-    collapseForm: true
+    collapseForm: false,
+    cancelImgUploadCount: 0
   };
   static propTypes = {
     isAuthenticated: PropTypes.bool,
@@ -119,7 +120,10 @@ class EmployeesPage extends Component {
     });
   };
   clearForm = () => {
-    this.setState({ collapseForm: "" });
+    this.setState({
+      collapseForm: false,
+      cancelImgUploadCount: this.state.cancelImgUploadCount + 1
+    });
     this.setState({
       employeeName: "",
       employeeNationality: "",
@@ -222,6 +226,7 @@ class EmployeesPage extends Component {
 
                 <div class="d-flex justify-content-start">
                   <Dropzone
+                    key={this.state.cancelImgUploadCount}
                     styles={{
                       dropzone: {
                         position: "relative",

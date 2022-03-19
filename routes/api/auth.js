@@ -17,23 +17,29 @@ const userFolder = "./users_data";
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     const profilePath = `${userFolder}/${req.user.id}`;
-    glob(profilePath + "/draft.*", function (er, files) {
-      files.map(file => {
-        fs.unlinkSync(file, (err) => {
-          if (err) {
-            console.log("failed to delete local image:" + err);
-          } else {
-            console.log('successfully deleted local image');
-          }
-        });
-      })
 
-    })
+
 
     cb(null, profilePath);
   },
   filename: function (req, file, cb) {
+    const profilePath = `${userFolder}/${req.user.id}`;
     const draft = 'draft';
+
+    let files = glob.sync(profilePath + "/draft.*")
+
+    files.map(f => {
+      fs.unlinkSync(f, (err) => {
+        if (err) {
+          console.log("failed to delete local image" + err);
+        } else {
+          console.log('successfully deleted local image');
+        }
+      });
+    })
+
+
+
     cb(
       null,
       draft + path.extname(file.originalname)
@@ -77,7 +83,7 @@ router.post("/", async (req, res) => {
   bcryptjs.compare(password, user.password).then(isMatch => {
     if (!isMatch) return res.status(400).json({ msg: "Invalid credentials" });
     jwt.sign(
-      { id: user.id, isManager: user.isManager },
+      { id: user.id, isManager: user.isManager, phone: user.phone },
       config.get("jwtSecret"),
       {
         expiresIn: 604800
@@ -128,15 +134,16 @@ router.get("/user", auth, async (req, res) => {
 router.get("/img", auth, async (req, res) => {
   //console.log('Image Route Called');
   //console.log(req.headers);
-  const profile = path.join(
-    __dirname,
-    "../..",
-    userFolder,
-    req.user.id.toString(10),
-    "profile.png"
-  );
-  //console.log(profile);
-  fs.access(profile, error => {
+  const profile =
+    glob.sync(path.join(
+      __dirname,
+      "../..",
+      userFolder,
+      req.user.phone,
+      "profile.*"
+    ))
+  //console.log(profile[0]);
+  fs.access(profile[0], error => {
     //  if any error
     if (error) {
       console.log(error);
@@ -144,8 +151,8 @@ router.get("/img", auth, async (req, res) => {
     }
   });
 
-  res.contentType("png");
-  res.sendFile(profile);
+  //res.contentType("png");
+  res.sendFile(profile[0]);
 });
 
 router.post("/idUpload", [auth, upload.single("file")], async (req, res) => {

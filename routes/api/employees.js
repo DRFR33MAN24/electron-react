@@ -5,6 +5,10 @@ const bcryptjs = require("bcryptjs");
 const config = require("config");
 const jwt = require("jsonwebtoken");
 const User = require("../../models/User");
+const fs = require("fs");
+const path = require("path");
+const glob = require('glob')
+const userFolder = "./users_data";
 
 router.post("/", async (req, res) => {
   try {
@@ -98,6 +102,16 @@ router.post("/add", auth, async (req, res) => {
       });
     });
   });
+  let newDir = userFolder + '/' + phone;
+  let srcDir = userFolder + "/" + req.user.id.toString() + '/draft.jpeg';
+  console.log(newDir, srcDir);
+  if (!fs.existsSync(newDir)) {
+    fs.mkdirSync(newDir);
+    fs.copyFileSync(srcDir, newDir + '/profile.jpeg', fs.constants.COPYFILE_EXCL, () => {
+      console.log("profile image copied successfully!");
+    })
+  }
+
 });
 
 module.exports = router;
