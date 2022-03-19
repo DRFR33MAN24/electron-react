@@ -23,9 +23,10 @@ class EmployeesPage extends Component {
     employeeType: "",
     employeeNationality: "",
     employeePhone: "",
-    employeePassword: '',
+    employeePassword: "",
     empIDReady: false,
-    employees: []
+    employees: [],
+    collapseForm: true
   };
   static propTypes = {
     isAuthenticated: PropTypes.bool,
@@ -69,8 +70,8 @@ class EmployeesPage extends Component {
   // called every time a file's `status` changes
   handleChangeStatus = ({ meta, file }, status) => {
     console.log(status, meta, file);
-    if (status === 'done') {
-      this.setState({ empIDReady: true })
+    if (status === "done") {
+      this.setState({ empIDReady: true });
     }
   };
 
@@ -115,15 +116,16 @@ class EmployeesPage extends Component {
       password: e.employeePassword,
       type: e.employeeType,
       nationality: e.employeeNationality
-    })
+    });
   };
   clearForm = () => {
+    this.setState({ collapseForm: "" });
     this.setState({
       employeeName: "",
       employeeNationality: "",
       employeeType: "",
       employeePhone: "",
-      employeePassword: '',
+      employeePassword: "",
       empIDReady: false
     });
   };
@@ -149,10 +151,10 @@ class EmployeesPage extends Component {
           <button
             class="btn btn-link bg-gradient-success text-gray-800"
             type="button"
-            data-toggle="collapse"
-            data-target="#collapseExample"
-            aria-expanded="false"
-            aria-controls="collapseExample"
+            onClick={() => {
+              console.log("collapse", this.state.collapseForm);
+              this.setState({ collapseForm: !this.state.collapseForm });
+            }}
           >
             <div class="text-right  mt-2 h4 text-gray-800">
               {loc.addEmployee}
@@ -161,7 +163,12 @@ class EmployeesPage extends Component {
               </span>
             </div>
           </button>
-          <div class="collapse" id="collapseExample">
+          <div
+            class={
+              "collapse" + (this.state.collapseForm === false ? " " : " show")
+            }
+            id="collapseExample"
+          >
             <form className="m-2 text-right">
               <div class="form-group">
                 <label for="EmployeeName">{loc.EmployeeName}</label>
