@@ -33,6 +33,37 @@ export const getEmployees = () => (dispatch, getState) => {
             });
         });
 };
+
+export const getEmployeeImg = ({ phone }) => (dispatch, getState) => {
+    console.log("getEmployeeImg called");
+
+    dispatch({ type: EMPLOYEE_IMG_LOADING });
+    axios
+        .get(`${proxy}/api/employees/getImg`, {
+            responseType: "arraybuffer",
+            headers: tokenConfig(getState).headers
+        })
+        .then(r => {
+            let prefix = "data:" + r.headers["content-type"] + ";base64,";
+            let data = Buffer.from(r.data, "binary").toString("base64");
+            dispatch({ type: NO_ERROR });
+
+            dispatch({
+                type: EMPLOYEE_IMG_LOADED,
+                payload: prefix + data
+            });
+        })
+
+        .catch(err => {
+            dispatch(
+                returnErrors(err.response.data, err.response.status, AUTH_ERROR)
+            );
+            dispatch({
+                type: AUTH_ERROR
+            });
+        });
+};
+
 export const addEmployee = ({ name, phone, password, nationality, type }) => (dispatch, getState) => {
     console.log("addEmployee called");
 

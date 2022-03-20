@@ -145,6 +145,7 @@ class EmployeesPage extends Component {
       return (
         <tr key={"row_" + index}>
           <td className="cell">{item.id}</td>
+          <td className="cell"><img src={`${item.phone}`} /></td>
           <td className="cell">{item.name}</td>
           <td className="cell">{item.phone}</td>
           <td className="cell">{getFormattedDate(item.register_date)}</td>
