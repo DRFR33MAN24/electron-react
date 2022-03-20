@@ -13,7 +13,7 @@ import FormatImg from "../util";
 const { ipcRenderer } = window.require("electron");
 export const Context = React.createContext({});
 class MainPage extends Component {
-  state = { pageTitle: "الشاشة الرئيسية" };
+  state = { pageTitle: loc.mainPage };
 
   static propTypes = {
     isAuthenticated: PropTypes.bool,
@@ -43,18 +43,18 @@ class MainPage extends Component {
 
     const managersSection = (
       <Fragment>
-        <div class="sidebar-heading">قسم المدراء</div>
+        <div class="sidebar-heading">{loc.managersSection}</div>
 
         <li class="nav-item">
           <a class="nav-link collapsed" href="#/Main/employees">
             <i class="fas fa-fw fa-suitcase"></i>
-            <span>الموظفين</span>
+            <span>{loc.employees}</span>
           </a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="#/Main/systemSettings">
             <i class="fas fa-fw fa-wrench"></i>
-            <span>الإعدادات</span>
+            <span>{loc.settings}</span>
           </a>
         </li>
         <hr class="sidebar-divider d-none d-md-block" />
@@ -389,9 +389,9 @@ class MainPage extends Component {
               <div class="row text-light align-items-center justify-content-center mt-1">
                 <a className='text-light mr-1 '><i class="fas fa-fw fa-list"></i></a>
                 {user.isManager ? (
-                  <span className="text-warning">مدير</span>
+                  <span className="text-warning">{loc.manager}</span>
                 ) : (
-                  <span className="text-light">موظف</span>
+                  <span className="text-light">{loc.employee}</span>
                 )}
                 <span className="text-dark">&nbsp;/&nbsp; </span>
                 <div className="text-light"> {user.name}</div>
@@ -404,24 +404,24 @@ class MainPage extends Component {
             <li class="nav-item active">
               <a class="nav-link" href="#/Main">
                 <i class="fas fa-fw fa-home"></i>
-                <span>الصفحة الرئيسية</span>
+                <span>{loc.mainPage}</span>
               </a>
             </li>
 
             <hr class="sidebar-divider" />
 
-            <div class="sidebar-heading">قسم الموظفين</div>
+            <div class="sidebar-heading">{loc.EmployeesSection}</div>
 
             <li class="nav-item">
               <a class="nav-link collapsed" href="#/Main/clients">
                 <i class="fas fa-fw fa-users"></i>
-                <span>العملاء</span>
+                <span>{loc.clients}</span>
               </a>
             </li>
             <li class="nav-item">
               <a class="nav-link collapsed" href="#/Main/shippings">
                 <i class="fas fa-fw fa-shipping-fast"></i>
-                <span>الشحنات</span>
+                <span>{loc.shippings}</span>
               </a>
             </li>
 
@@ -436,7 +436,7 @@ class MainPage extends Component {
             <li class="nav-item  mx-1">
               <a class="nav-link " href="#/Login" onClick={this.props.logout}>
                 <i class="fas fa-sign-out-alt fa-fw"></i>
-                <span>تسجيل الخروج</span>
+                <span>{loc.logout}</span>
               </a>
             </li>
 

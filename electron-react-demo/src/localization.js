@@ -23,7 +23,15 @@ let loc = new LocalizedStrings({
     american: "امريكي",
     password: 'كلمة المرور',
     jobContract: 'عقد العمل',
-    registerDate: 'تاريخ التسجيل'
+    registerDate: 'تاريخ التسجيل',
+    mainPage: "الصفحة الرئيسية",
+    managersSection: "قسم المدراء",
+    employeeSection: "قسم الموظفين",
+    logout: "تسجيل الخروج",
+    clients: "العملاء",
+    shippings: "الشحنات",
+
+
   }
 });
 
