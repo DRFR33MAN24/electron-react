@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import "react-dropzone-uploader/dist/styles.css";
 import Dropzone from "react-dropzone-uploader";
 import { Layout, Preview } from "../Components/CustomDropZone";
+import Img from "../Components/Img";
 import { Context } from "./MainPage";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
@@ -145,11 +146,17 @@ class EmployeesPage extends Component {
       return (
         <tr key={"row_" + index}>
           <td className="cell">{item.id}</td>
-          <td className="cell"><img src={`${item.phone}`} /></td>
+          <td className="cell">
+            <Img imgIndex={item.id} />
+          </td>
           <td className="cell">{item.name}</td>
           <td className="cell">{item.phone}</td>
           <td className="cell">{getFormattedDate(item.register_date)}</td>
-          <td className="cell"><button className='btn btn-link'><i class="fas fa-plus fa-sm fa-fw"></i></button></td>
+          <td className="cell">
+            <button className="btn btn-link">
+              <i class="fas fa-plus fa-sm fa-fw"></i>
+            </button>
+          </td>
         </tr>
       );
     });
@@ -363,9 +370,7 @@ class EmployeesPage extends Component {
                 <th key="register_date" filterkey="register_date">
                   {loc.registerDate}
                 </th>
-                <th >
-                  {loc.settings}
-                </th>
+                <th>{loc.settings}</th>
               </TableFilter>
             </thead>
             <tbody>{tableContent}</tbody>

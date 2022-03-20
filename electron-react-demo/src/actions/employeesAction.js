@@ -3,7 +3,10 @@ import {
   AUTH_ERROR,
   EMPLOYEE_ADDED,
   EMPLOYEES_LOADED,
-  EMPLOYEES_LOADING
+  EMPLOYEES_LOADING,
+  EMPLOYEE_IMG_LOADING,
+  EMPLOYEE_IMG_LOADED,
+  NO_ERROR
 } from "./types";
 import { tokenConfig } from "./authAction";
 import { returnErrors } from "./errorAction";

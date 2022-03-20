@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Context } from "./MainPage";
+
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 

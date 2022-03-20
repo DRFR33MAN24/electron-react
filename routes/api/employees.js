@@ -118,7 +118,7 @@ router.post("/add", auth, async (req, res) => {
   }
 });
 
-router.get("/img", auth, async (req, res) => {
+router.get("/getImg", auth, async (req, res) => {
   //console.log('Image Route Called');
   //console.log(req.headers);
   const phone = req.phone;

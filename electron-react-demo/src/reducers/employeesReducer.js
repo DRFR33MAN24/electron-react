@@ -1,4 +1,9 @@
-import { EMPLOYEES_LOADING, EMPLOYEES_LOADED } from "../actions/types";
+import {
+  EMPLOYEES_LOADING,
+  EMPLOYEES_LOADED,
+  EMPLOYEE_IMG_LOADED,
+  EMPLOYEE_IMG_LOADING
+} from "../actions/types";
 
 const initialState = {
   employees: [],
@@ -17,7 +22,11 @@ export default function(state = initialState, action) {
       };
 
     case EMPLOYEE_IMG_LOADED:
-      employeeImg.push(action.payload);
+      return {
+        employeeImg: [],
+        ...state
+      };
+    case EMPLOYEE_IMG_LOADING:
       return {
         ...state
       };
