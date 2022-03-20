@@ -6,6 +6,9 @@ import PropTypes from "prop-types";
 import { clearErrors, returnErrors } from "../actions/errorAction";
 import { getEmployeeImg } from "../actions/employeesAction";
 class Img extends Component {
+  componentWillMount() {
+    this.props.getEmployeeImg({ phone: this.props.phone });
+  }
   static propTypes = {
     getEmployeeImg: PropTypes.func.isRequired,
     img: PropTypes.array,
@@ -14,9 +17,12 @@ class Img extends Component {
     clearErrors: PropTypes.func.isRequired,
     returnErrors: PropTypes.func.isRequired
   };
+
   render() {
     const img = this.props.img[this.props.imgIndex];
+
     if (img === null || img === undefined) return <div></div>;
+
     return (
       <div>
         <img src={img} />

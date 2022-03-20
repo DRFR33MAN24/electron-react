@@ -23,7 +23,7 @@ export default function(state = initialState, action) {
 
     case EMPLOYEE_IMG_LOADED:
       return {
-        employeeImg: [],
+        employeeImg: state.employeeImg.push(action.payload),
         ...state
       };
     case EMPLOYEE_IMG_LOADING:

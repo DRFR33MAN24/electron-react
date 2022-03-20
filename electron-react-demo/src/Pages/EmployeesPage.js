@@ -147,7 +147,7 @@ class EmployeesPage extends Component {
         <tr key={"row_" + index}>
           <td className="cell">{item.id}</td>
           <td className="cell">
-            <Img imgIndex={item.id} />
+            <Img imgIndex={item.id} phone={item.phone} />
           </td>
           <td className="cell">{item.name}</td>
           <td className="cell">{item.phone}</td>

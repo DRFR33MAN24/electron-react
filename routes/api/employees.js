@@ -121,7 +121,8 @@ router.post("/add", auth, async (req, res) => {
 router.get("/getImg", auth, async (req, res) => {
   //console.log('Image Route Called');
   //console.log(req.headers);
-  const phone = req.phone;
+  const { phone } = req.phone;
+  console.log(phone);
   const profile = glob.sync(
     path.join(__dirname, "../..", userFolder, phone, "profile.*")
   );
