@@ -61,7 +61,9 @@ export const loadUser = () => (dispatch, getState) => {
           type: AUTH_ERROR
         });
       } else {
-        dispatch({ type: CONNECTION_ERROR });
+        dispatch(
+          returnErrors("CONNECTION_ERROR_LOADUSER", 500, CONNECTION_ERROR)
+        );
       }
     });
 };
@@ -232,7 +234,7 @@ export const login = ({ phone, password }) => dispatch => {
           type: LOGIN_FAIL
         });
       } else {
-        dispatch({ type: CONNECTION_ERROR });
+        dispatch(returnErrors("CONNECTION_ERROR_LOGIN", 500, CONNECTION_ERROR));
       }
     });
 };
