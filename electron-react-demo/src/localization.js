@@ -20,7 +20,10 @@ let loc = new LocalizedStrings({
     cancel: "الغاء",
     id: "الرقم",
     syrian: "سوري",
-    american: "امريكي"
+    american: "امريكي",
+    password: 'كلمة المرور',
+    jobContract: 'عقد العمل',
+    registerDate: 'تاريخ التسجيل'
   }
 });
 

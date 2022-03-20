@@ -155,6 +155,8 @@ router.get("/img", auth, async (req, res) => {
   res.sendFile(profile[0]);
 });
 
+
+
 router.post("/idUpload", [auth, upload.single("file")], async (req, res) => {
 
   res.end("200");

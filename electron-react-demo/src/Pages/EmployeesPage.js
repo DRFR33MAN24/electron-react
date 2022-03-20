@@ -11,6 +11,7 @@ import { getEmployees, addEmployee } from "../actions/employeesAction";
 import loc from "../localization";
 import TableFilter from "react-table-filter";
 import "react-table-filter/lib/styles.css";
+import { getFormattedDate } from "../util";
 
 class EmployeesPage extends Component {
   // constructor(props) {
@@ -146,6 +147,8 @@ class EmployeesPage extends Component {
           <td className="cell">{item.id}</td>
           <td className="cell">{item.name}</td>
           <td className="cell">{item.phone}</td>
+          <td className="cell">{getFormattedDate(item.register_date)}</td>
+          <td className="cell"><button className='btn btn-link'><i class="fas fa-plus fa-sm fa-fw"></i></button></td>
         </tr>
       );
     });
@@ -221,9 +224,48 @@ class EmployeesPage extends Component {
                   <option value="US">{loc.american}</option>
                 </select>
               </div>
-              <div class="form-group">
+              <div class="form-group-inline">
                 <label for="employeeID">{loc.personalId}</label>
 
+                <div class="d-flex justify-content-start">
+                  <Dropzone
+                    key={this.state.cancelImgUploadCount}
+                    styles={{
+                      dropzone: {
+                        position: "relative",
+
+                        width: "100px",
+                        height: "100px",
+                        minHeight: "100px",
+
+                        justifyContent: "center"
+                      },
+                      input: {
+                        position: "static",
+
+                        top: 0,
+                        left: 0
+                      }
+                    }}
+                    maxFiles={1}
+                    multiple={false}
+                    canCancel={false}
+                    getUploadParams={this.getUploadParams}
+                    onChangeStatus={this.handleChangeStatus}
+                    onSubmit={this.handleSubmit}
+                    LayoutComponent={Layout}
+                    PreviewComponent={Preview}
+                    inputWithFilesContent={null}
+                    inputContent={
+                      <div>
+                        {/* {loc.dragUploadFile} */}
+                        <i class="fas fa-plus fa-sm fa-fw"></i>
+                      </div>
+                    }
+                    accept="image/*,audio/*,video/*"
+                  />
+                </div>
+                <label for="employeeContract">{loc.jobContract}</label>
                 <div class="d-flex justify-content-start">
                   <Dropzone
                     key={this.state.cancelImgUploadCount}
@@ -316,6 +358,12 @@ class EmployeesPage extends Component {
                 </th>
                 <th key="phone" filterkey="phone">
                   {loc.phoneNumber}
+                </th>
+                <th key="register_date" filterkey="register_date">
+                  {loc.registerDate}
+                </th>
+                <th >
+                  {loc.settings}
                 </th>
               </TableFilter>
             </thead>
