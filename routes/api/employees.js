@@ -7,7 +7,7 @@ const jwt = require("jsonwebtoken");
 const User = require("../../models/User");
 const fs = require("fs");
 const path = require("path");
-const glob = require('glob')
+const glob = require("glob");
 const userFolder = "./users_data";
 
 router.post("/", async (req, res) => {
@@ -22,8 +22,6 @@ router.post("/", async (req, res) => {
 
   res.json(employees);
 });
-
-
 
 // @route POST api/users
 // @desc Register New User
@@ -104,16 +102,40 @@ router.post("/add", auth, async (req, res) => {
       });
     });
   });
-  let newDir = userFolder + '/' + phone;
-  let srcDir = userFolder + "/" + req.user.id.toString() + '/draft.jpeg';
+  let newDir = userFolder + "/" + phone;
+  let srcDir = userFolder + "/" + req.user.id.toString() + "/draft.jpeg";
   console.log(newDir, srcDir);
   if (!fs.existsSync(newDir)) {
     fs.mkdirSync(newDir);
-    fs.copyFileSync(srcDir, newDir + '/profile.jpeg', fs.constants.COPYFILE_EXCL, () => {
-      console.log("profile image copied successfully!");
-    })
+    fs.copyFileSync(
+      srcDir,
+      newDir + "/profile.jpeg",
+      fs.constants.COPYFILE_EXCL,
+      () => {
+        console.log("profile image copied successfully!");
+      }
+    );
   }
+});
 
+router.get("/img", auth, async (req, res) => {
+  //console.log('Image Route Called');
+  //console.log(req.headers);
+  const phone = req.phone;
+  const profile = glob.sync(
+    path.join(__dirname, "../..", userFolder, phone, "profile.*")
+  );
+  //console.log(profile[0]);
+  fs.access(profile[0], error => {
+    //  if any error
+    if (error) {
+      console.log(error);
+      return;
+    }
+  });
+
+  //res.contentType("png");
+  res.sendFile(profile[0]);
 });
 
 module.exports = router;
