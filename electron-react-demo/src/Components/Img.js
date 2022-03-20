@@ -6,7 +6,7 @@ import PropTypes from "prop-types";
 import { clearErrors, returnErrors } from "../actions/errorAction";
 import { getEmployeeImg } from "../actions/employeesAction";
 class Img extends Component {
-  componentWillMount() {
+  componentDidMount() {
     this.props.getEmployeeImg({ phone: this.props.phone });
   }
   static propTypes = {
@@ -25,7 +25,7 @@ class Img extends Component {
 
     return (
       <div>
-        <img src={img} />
+        <img src={img} className="rounded-circle image-profile border bg-white" width='32' height='32' />
       </div>
     );
   }

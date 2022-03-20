@@ -9,7 +9,7 @@ const initialState = {
   employees: [],
   employeeImg: []
 };
-export default function(state = initialState, action) {
+export default function (state = initialState, action) {
   switch (action.type) {
     case EMPLOYEES_LOADED:
       return {
@@ -23,8 +23,8 @@ export default function(state = initialState, action) {
 
     case EMPLOYEE_IMG_LOADED:
       return {
-        employeeImg: state.employeeImg.push(action.payload),
-        ...state
+        ...state,
+        employeeImg: [...state.employeeImg, action.payload]
       };
     case EMPLOYEE_IMG_LOADING:
       return {

@@ -141,6 +141,7 @@ class EmployeesPage extends Component {
     });
   };
   render() {
+    //console.log(this.state.employees.length);
     if (this.state.employees.length === 0) return <div></div>;
     const tableContent = this.state.employees.map((item, index) => {
       return (
@@ -154,7 +155,7 @@ class EmployeesPage extends Component {
           <td className="cell">{getFormattedDate(item.register_date)}</td>
           <td className="cell">
             <button className="btn btn-link">
-              <i class="fas fa-plus fa-sm fa-fw"></i>
+              <i class="fas fa-ellipsis-h fa-sm fa-fw"></i>
             </button>
           </td>
         </tr>
@@ -361,9 +362,13 @@ class EmployeesPage extends Component {
                 <th key="id" filterkey="id">
                   {loc.id}
                 </th>
+                <th key="profileImg" filterkey="profileImg">
+                  {loc.personalId}
+                </th>
                 <th key="name" filterkey="name" showsearch={"true"}>
                   {loc.EmployeeName}
                 </th>
+
                 <th key="phone" filterkey="phone">
                   {loc.phoneNumber}
                 </th>

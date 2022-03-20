@@ -49,7 +49,7 @@ export const getEmployeeImg = ({ phone }) => (dispatch, getState) => {
     .then(r => {
       let prefix = "data:" + r.headers["content-type"] + ";base64,";
       let data = Buffer.from(r.data, "binary").toString("base64");
-      dispatch({ type: NO_ERROR });
+      //dispatch({ type: NO_ERROR });
 
       dispatch({
         type: EMPLOYEE_IMG_LOADED,
@@ -58,6 +58,7 @@ export const getEmployeeImg = ({ phone }) => (dispatch, getState) => {
     })
 
     .catch(err => {
+      console.log(err);
       dispatch(
         returnErrors(err.response.data, err.response.status, AUTH_ERROR)
       );

@@ -122,7 +122,7 @@ router.get("/getImg", auth, async (req, res) => {
   //console.log('Image Route Called');
   //console.log(req.headers);
   const phone = req.headers.phone;
-  console.log(phone);
+  //console.log(phone);
   const profile = glob.sync(
     path.join(__dirname, "../..", userFolder, phone, "profile.*")
   );
@@ -131,7 +131,7 @@ router.get("/getImg", auth, async (req, res) => {
     //  if any error
     if (error) {
       console.log(error);
-      return;
+      return res.status(400).json({ msg: "ERROR Accessing file" });
     }
   });
 
