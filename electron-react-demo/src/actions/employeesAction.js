@@ -38,13 +38,13 @@ export const getEmployees = () => (dispatch, getState) => {
 
 export const getEmployeeImg = ({ phone }) => (dispatch, getState) => {
   console.log("getEmployeeImg called");
-
+  const headers = tokenConfig(getState).headers;
+  headers.phone = phone;
   dispatch({ type: EMPLOYEE_IMG_LOADING });
   axios
     .get(`${proxy}/api/employees/getImg`, {
       responseType: "arraybuffer",
-      headers: tokenConfig(getState).headers,
-      phone
+      headers: headers
     })
     .then(r => {
       let prefix = "data:" + r.headers["content-type"] + ";base64,";
