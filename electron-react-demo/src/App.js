@@ -10,7 +10,14 @@ import { Component } from "react";
 import PropTypes from "prop-types";
 import { loadUser } from "./actions/authAction";
 import { returnErrors, clearErrors } from "./actions/errorAction";
-import { LOGIN_FAIL, RESET_FAIL, AUTH_ERROR, CLEAR_ERRORS, NO_ERROR } from "./actions/types";
+import {
+  LOGIN_FAIL,
+  RESET_FAIL,
+  AUTH_ERROR,
+  CLEAR_ERRORS,
+  NO_ERROR,
+  CONNECTION_ERROR
+} from "./actions/types";
 class App extends Component {
   static propTypes = {
     isAuthenticated: PropTypes.bool,
@@ -30,17 +37,12 @@ class App extends Component {
     const error = this.props.error;
     console.log(error);
     if (error !== prevProps.error) {
-
       if (error.id === null || error.id === undefined) return;
-      else if (
-        error.id === AUTH_ERROR ||
-        error.id === LOGIN_FAIL ||
-        error.id === RESET_FAIL ||
-        error.id === CLEAR_ERRORS
-      ) {
+      else if (error.id === AUTH_ERROR || error.id === LOGIN_FAIL) {
         this.props.navigate("/Login");
       } else if (error.id === NO_ERROR) {
         this.props.navigate("/Main");
+      } else if (error.id === CONNECTION_ERROR) {
       }
     }
   }
@@ -48,7 +50,6 @@ class App extends Component {
   render() {
     return (
       <div className="App ">
-
         {/* <TitleBar /> */}
         <Outlet />
       </div>
