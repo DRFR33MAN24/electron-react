@@ -17,7 +17,8 @@ import {
   GET_ERRORS,
   NO_ERROR,
   CLEAR_ERRORS,
-  IMG_LOADED
+  IMG_LOADED,
+  CONNECTION_ERROR
 } from "./types";
 const proxy = "http://localhost:5000";
 // Check token & load user
@@ -52,12 +53,16 @@ export const loadUser = () => (dispatch, getState) => {
         });
     })
     .catch(err => {
-      dispatch(
-        returnErrors(err.response.data, err.response.status, AUTH_ERROR)
-      );
-      dispatch({
-        type: AUTH_ERROR
-      });
+      if (err.response.status === 400) {
+        dispatch(
+          returnErrors(err.response.data, err.response.status, AUTH_ERROR)
+        );
+        dispatch({
+          type: AUTH_ERROR
+        });
+      } else {
+        dispatch({ type: CONNECTION_ERROR });
+      }
     });
 };
 
@@ -208,7 +213,7 @@ export const login = ({ phone, password }) => dispatch => {
   axios
     .post(`${proxy}/api/auth`, body, config)
     .then(res => {
-      console.log("NO_ERR");
+      //console.log("NO_ERR");
       dispatch({ type: NO_ERROR });
       dispatch({
         type: LOGIN_SUCCESS,
@@ -219,12 +224,16 @@ export const login = ({ phone, password }) => dispatch => {
       dispatch(loadUser());
     })
     .catch(err => {
-      dispatch(
-        returnErrors(err.response.data, err.response.status, "LOGIN_FAIL")
-      );
-      dispatch({
-        type: LOGIN_FAIL
-      });
+      if (err.response.status === 400) {
+        dispatch(
+          returnErrors(err.response.data, err.response.status, LOGIN_FAIL)
+        );
+        dispatch({
+          type: LOGIN_FAIL
+        });
+      } else {
+        dispatch({ type: CONNECTION_ERROR });
+      }
     });
 };
 
