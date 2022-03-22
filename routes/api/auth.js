@@ -12,38 +12,31 @@ const { stringify } = require("query-string");
 const User = require("../../models/User");
 const fs = require("fs");
 const path = require("path");
-const glob = require('glob')
+const glob = require("glob");
 const userFolder = "./users_data";
 const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
+  destination: function(req, file, cb) {
     const profilePath = `${userFolder}/${req.user.id}`;
-
-
 
     cb(null, profilePath);
   },
-  filename: function (req, file, cb) {
+  filename: function(req, file, cb) {
     const profilePath = `${userFolder}/${req.user.id}`;
-    const draft = 'draft';
+    const draft = "draft";
 
-    let files = glob.sync(profilePath + "/draft.*")
+    let files = glob.sync(profilePath + "/draft.*");
 
     files.map(f => {
-      fs.unlinkSync(f, (err) => {
+      fs.unlinkSync(f, err => {
         if (err) {
           console.log("failed to delete local image" + err);
         } else {
-          console.log('successfully deleted local image');
+          console.log("successfully deleted local image");
         }
       });
-    })
+    });
 
-
-
-    cb(
-      null,
-      draft + path.extname(file.originalname)
-    );
+    cb(null, draft + path.extname(file.originalname));
   }
 });
 
@@ -68,20 +61,29 @@ router.post("/", async (req, res) => {
   // }
 
   if (!phone || !password) {
-    return res.status(400).json({ msg: "Please enter all fields" });
+    return res
+      .status(400)
+      .json({ msg: "Please enter all fields", status: "ERR" });
   }
 
   let user = await User.findOne({ where: { phone: phone } }, { plain: true });
   if (!user) {
-    return res.status(400).json({ msg: "User Does not exists." });
+    return res
+      .status(400)
+      .json({ msg: "User Does not exists.", status: "ERR" });
   }
   if (user.active === false) {
-    return res.status(400).json({ msg: "Please activate your account" });
+    return res
+      .status(400)
+      .json({ msg: "Please activate your account", status: "ERR" });
   }
 
   // Validate password
   bcryptjs.compare(password, user.password).then(isMatch => {
-    if (!isMatch) return res.status(400).json({ msg: "Invalid credentials" });
+    if (!isMatch)
+      return res
+        .status(400)
+        .json({ msg: "Invalid credentials", status: "ERR" });
     jwt.sign(
       { id: user.id, isManager: user.isManager, phone: user.phone },
       config.get("jwtSecret"),
@@ -121,7 +123,9 @@ router.get("/user", auth, async (req, res) => {
   });
 
   if (user.active === false) {
-    return res.status(400).json({ msg: "Please activate your account" });
+    return res
+      .status(400)
+      .json({ msg: "Please activate your account", status: "ERR" });
   }
 
   res.json(user);
@@ -134,14 +138,9 @@ router.get("/user", auth, async (req, res) => {
 router.get("/img", auth, async (req, res) => {
   //console.log('Image Route Called');
   //console.log(req.headers);
-  const profile =
-    glob.sync(path.join(
-      __dirname,
-      "../..",
-      userFolder,
-      req.user.phone,
-      "profile.*"
-    ))
+  const profile = glob.sync(
+    path.join(__dirname, "../..", userFolder, req.user.phone, "profile.*")
+  );
   //console.log(profile[0]);
   fs.access(profile[0], error => {
     //  if any error
@@ -155,10 +154,7 @@ router.get("/img", auth, async (req, res) => {
   res.sendFile(profile[0]);
 });
 
-
-
 router.post("/idUpload", [auth, upload.single("file")], async (req, res) => {
-
   res.end("200");
 });
 

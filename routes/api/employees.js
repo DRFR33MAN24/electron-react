@@ -43,11 +43,15 @@ router.post("/add", auth, async (req, res) => {
   //   return res.status(400).json({ msg: "Failed captcha verification" });
   // }
   if (req.user.isManager !== true) {
-    return res.status(400).json({ msg: "Not allowed to manage employees" });
+    return res
+      .status(400)
+      .json({ msg: "Not allowed to manage employees", status: "ERR" });
   }
 
   if (!name || !phone || !password || !type || !nationality) {
-    return res.status(400).json({ msg: "Please enter all fields" });
+    return res
+      .status(400)
+      .json({ msg: "Please enter all fields", status: "ERR" });
   }
 
   // Check for exitsting user
@@ -56,7 +60,7 @@ router.post("/add", auth, async (req, res) => {
     { plain: true }
   );
   if (user) {
-    return res.status(400).json({ msg: "User alerady exists." });
+    return res.status(400).json({ msg: "User alerady exists.", status: "ERR" });
   }
 
   // const newUser = new User({
@@ -131,7 +135,9 @@ router.get("/getImg", auth, async (req, res) => {
     //  if any error
     if (error) {
       console.log(error);
-      return res.status(400).json({ msg: "ERROR Accessing file" });
+      return res
+        .status(400)
+        .json({ msg: "ERROR Accessing file", status: "ERR" });
     }
   });
 
