@@ -19,24 +19,34 @@ export const getEmployees = () => (dispatch, getState) => {
   console.log("getEmployees called");
 
   dispatch({ type: EMPLOYEES_LOADING });
-  
+
+//   (async(){
+//     //Bunch of code...
+// })();
   try {
     let res = await axios
       .post(`${proxy}/api/employees`, tokenConfig(getState))
 
-    dispatch({
-      type: EMPLOYEES_LOADED,
-      payload: res.data
-    });
+      if (res.status === 'OK') {
+        
+        dispatch({
+          type: EMPLOYEES_LOADED,
+          payload: res.data
+        });
+      } else {
+        dispatch(
+          returnErrors(err.response.data, err.response.status, AUTH_ERROR)
+        );
+        dispatch({
+          type: AUTH_ERROR
+        });
+        
+      }
 
-    dispatch(
-      returnErrors(err.response.data, err.response.status, AUTH_ERROR)
-    );
-    dispatch({
-      type: AUTH_ERROR
-    });
   } catch (err) {
-
+          dispatch(
+          returnErrors('Connection error', 'ERR', CONNECTION_ERROR_GET_EMPLOYEES)
+        );
   }
 
 
