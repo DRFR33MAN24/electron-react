@@ -2,7 +2,8 @@ import {
   GET_ERRORS,
   CLEAR_ERRORS,
   NO_ERROR,
-  CONNECTION_ERROR
+  CONNECTION_ERROR,
+  AUTH_ERROR
 } from "../actions/types";
 
 const initialState = {
@@ -35,9 +36,16 @@ export default function(state = initialState, action) {
 
     case CONNECTION_ERROR:
       return {
-        msg: {},
-        status: null,
+        msg: action.payload.msg,
+        status: action.payload.status,
         id: CONNECTION_ERROR
+      };
+
+    case AUTH_ERROR:
+      return {
+        msg: action.payload.msg,
+        status: action.payload.status,
+        id: AUTH_ERROR
       };
 
     default:

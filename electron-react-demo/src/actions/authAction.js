@@ -70,134 +70,134 @@ export const loadUser = () => (dispatch, getState) => {
 
 //Register user
 
-export const register = ({
-  name,
-  email,
-  password,
-  active,
-  token
-}) => dispatch => {
-  dispatch({ type: USER_LOADING });
-  //dispatch(sendEmail(email));
-  //console.log("access-able");
-  // Headers
-  const config = {
-    headers: {
-      "Content-Type": "application/json"
-    }
-  };
+// export const register = ({
+//   name,
+//   email,
+//   password,
+//   active,
+//   token
+// }) => dispatch => {
+//   dispatch({ type: USER_LOADING });
+//   //dispatch(sendEmail(email));
+//   //console.log("access-able");
+//   // Headers
+//   const config = {
+//     headers: {
+//       "Content-Type": "application/json"
+//     }
+//   };
 
-  // Request body
-  const body = JSON.stringify({ name, email, password, active, token });
+//   // Request body
+//   const body = JSON.stringify({ name, email, password, active, token });
 
-  axios
-    .post("/api/users", body, config)
-    .then(res => {
-      dispatch({
-        type: REGISTER_SUCCESS,
-        payload: res.data
-      });
-    })
-    .then(() => {
-      // dispatch(sendEmail(email));
-    })
+//   axios
+//     .post("/api/users", body, config)
+//     .then(res => {
+//       dispatch({
+//         type: REGISTER_SUCCESS,
+//         payload: res.data
+//       });
+//     })
+//     .then(() => {
+//       // dispatch(sendEmail(email));
+//     })
 
-    .catch(err => {
-      dispatch(
-        returnErrors(err.response.data, err.response.status, "REGISTER_FAIL")
-      );
-      dispatch({
-        type: REGISTER_FAIL
-      });
-    });
-};
+//     .catch(err => {
+//       dispatch(
+//         returnErrors(err.response.data, err.response.status, "REGISTER_FAIL")
+//       );
+//       dispatch({
+//         type: REGISTER_FAIL
+//       });
+//     });
+// };
 
-export const updateDetails = ({
-  name,
-  email,
-  password,
-  id,
-  wallet,
-  country,
-  region,
-  address,
-  zip
-}) => (dispatch, getState) => {
-  dispatch({ type: USER_LOADING });
-  // Headers
-  console.log("updateDetails Called");
-  // const config = {
-  //   headers: {
-  //     "Content-Type": "application/json"
-  //   }
-  // };
+// export const updateDetails = ({
+//   name,
+//   email,
+//   password,
+//   id,
+//   wallet,
+//   country,
+//   region,
+//   address,
+//   zip
+// }) => (dispatch, getState) => {
+//   dispatch({ type: USER_LOADING });
+//   // Headers
+//   console.log("updateDetails Called");
+//   // const config = {
+//   //   headers: {
+//   //     "Content-Type": "application/json"
+//   //   }
+//   // };
 
-  // Request body
-  const body = JSON.stringify({
-    name,
-    email,
-    password,
-    id,
-    wallet,
-    country,
-    region,
-    address,
-    zip
-  });
-  axios
-    .post("/api/users/update", body, tokenConfig(getState))
-    .then(res =>
-      dispatch({
-        type: UPDATE_SUCCESS
-      })
-    )
-    .then(() => {
-      // dispatch(sendEmail(email));
-    })
-    .catch(err => {
-      dispatch(
-        returnErrors(err.response.data, err.response.status, "UPDATE_FAIL")
-      );
-      dispatch({
-        type: UPDATE_FAIL
-      });
-    });
-};
+//   // Request body
+//   const body = JSON.stringify({
+//     name,
+//     email,
+//     password,
+//     id,
+//     wallet,
+//     country,
+//     region,
+//     address,
+//     zip
+//   });
+//   axios
+//     .post("/api/users/update", body, tokenConfig(getState))
+//     .then(res =>
+//       dispatch({
+//         type: UPDATE_SUCCESS
+//       })
+//     )
+//     .then(() => {
+//       // dispatch(sendEmail(email));
+//     })
+//     .catch(err => {
+//       dispatch(
+//         returnErrors(err.response.data, err.response.status, "UPDATE_FAIL")
+//       );
+//       dispatch({
+//         type: UPDATE_FAIL
+//       });
+//     });
+// };
 
-export const resetPassword = ({ email, password, token }) => (
-  dispatch,
-  getState
-) => {
-  dispatch({ type: USER_LOADING });
-  // Headers
-  console.log("resetPassword Called");
-  // const config = {
-  //   headers: {
-  //     "Content-Type": "application/json"
-  //   }
-  // };
+// export const resetPassword = ({ email, password, token }) => (
+//   dispatch,
+//   getState
+// ) => {
+//   dispatch({ type: USER_LOADING });
+//   // Headers
+//   console.log("resetPassword Called");
+//   // const config = {
+//   //   headers: {
+//   //     "Content-Type": "application/json"
+//   //   }
+//   // };
 
-  // Request body
-  const body = JSON.stringify({ email, password, token });
-  axios
-    .post("/api/users/reset", body, tokenConfig(getState))
-    .then(res =>
-      dispatch({
-        type: RESET_SUCCESS
-      })
-    )
-    .then(() => {
-      // dispatch(sendEmail(email));
-    })
-    .catch(err => {
-      dispatch(
-        returnErrors(err.response.data, err.response.status, "RESET_FAIL")
-      );
-      dispatch({
-        type: RESET_FAIL
-      });
-    });
-};
+//   // Request body
+//   const body = JSON.stringify({ email, password, token });
+//   axios
+//     .post("/api/users/reset", body, tokenConfig(getState))
+//     .then(res =>
+//       dispatch({
+//         type: RESET_SUCCESS
+//       })
+//     )
+//     .then(() => {
+//       // dispatch(sendEmail(email));
+//     })
+//     .catch(err => {
+//       dispatch(
+//         returnErrors(err.response.data, err.response.status, "RESET_FAIL")
+//       );
+//       dispatch({
+//         type: RESET_FAIL
+//       });
+//     });
+// };
 
 // Login User
 export const login = ({ phone, password }) => dispatch => {
@@ -226,7 +226,8 @@ export const login = ({ phone, password }) => dispatch => {
       dispatch(loadUser());
     })
     .catch(err => {
-      if (err.response.status === 400) {
+      const response = err.response;
+      if (response !== null || response !== null) {
         dispatch(
           returnErrors(err.response.data, err.response.status, LOGIN_FAIL)
         );
@@ -234,6 +235,7 @@ export const login = ({ phone, password }) => dispatch => {
           type: LOGIN_FAIL
         });
       } else {
+        console.log(err);
         dispatch(returnErrors("CONNECTION_ERROR_LOGIN", 500, CONNECTION_ERROR));
       }
     });

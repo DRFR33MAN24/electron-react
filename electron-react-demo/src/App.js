@@ -19,6 +19,9 @@ import {
   CONNECTION_ERROR
 } from "./actions/types";
 class App extends Component {
+  state = {
+    msg: ""
+  };
   static propTypes = {
     isAuthenticated: PropTypes.bool,
     isLoading: PropTypes.bool,
@@ -36,6 +39,7 @@ class App extends Component {
   componentDidUpdate(prevProps, prevState) {
     const error = this.props.error;
     console.log(error);
+
     if (error !== prevProps.error) {
       if (error.id === null || error.id === undefined) return;
       else if (error.id === AUTH_ERROR || error.id === LOGIN_FAIL) {
@@ -43,14 +47,22 @@ class App extends Component {
       } else if (error.id === NO_ERROR) {
         this.props.navigate("/Main");
       } else if (error.id === CONNECTION_ERROR) {
+        console.log(error.msg);
+        if (error.msg === "CONNECTION_ERROR_LOADUSER") {
+          this.setState({ msg: "Connection error retrying..." });
+          setTimeout(() => {
+            this.props.loadUser();
+          }, 1000);
+        }
       }
     }
   }
 
   render() {
+    let msg = this.state.msg;
     return (
       <div className="App ">
-        {/* <TitleBar /> */}
+        {msg !== "" ? <div className="card">{msg}</div> : <div></div>}
         <Outlet />
       </div>
     );
