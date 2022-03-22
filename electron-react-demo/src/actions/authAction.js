@@ -80,6 +80,83 @@ export const loadUser = () => (dispatch, getState) => {
 }
 };
 
+
+// Login User
+export const login = ({ phone, password }) => dispatch => {
+  //dispatch(returnErrors("خطأ في تسجيل الدخول", "500", "NO ERROR"));
+  dispatch({ type: USER_LOADING });
+  // Headers
+  const config = {
+    headers: {
+      "Content-Type": "application/json"
+    }
+  };
+
+  // Request body
+  const body = JSON.stringify({ phone, password });
+  
+  try {
+    let res = await
+    axios
+      .post(`${proxy}/api/auth`, body, config)
+     
+      if (res.status === "OK") {
+        dispatch({ type: NO_ERROR });
+        dispatch({
+          type: LOGIN_SUCCESS,
+          payload: res.data
+        });
+        
+        dispatch(loadUser());
+      } else {
+        
+        dispatch(
+          returnErrors(err.response.data, err.response.status, LOGIN_FAIL)
+        );
+        dispatch({
+          type: LOGIN_FAIL
+        });
+      }
+  
+} catch (error) {
+                   dispatch(
+          returnErrors('Connection error', 'ERR', CONNECTION_ERROR_LOGIN)
+        );
+}
+};
+
+// Logout User
+export const logout = () => dispatch => {
+  // return {
+  //   type: LOGOUT_SUCCESS
+  // };
+  dispatch({ type: LOGOUT_SUCCESS });
+  dispatch(clearErrors());
+};
+
+// Setup config/headers and token
+
+export const tokenConfig = getState => {
+  // Get token from loacalStorage
+
+  const token = getState().auth.token;
+
+  //Headers
+  const config = {
+    headers: {
+      "Content-type": "application/json"
+    }
+  };
+
+  // If token, add to headers
+
+  if (token) {
+    config.headers["x-auth-token"] = token;
+  }
+
+  return config;
+};
+
 //Register user
 
 // export const register = ({
@@ -211,78 +288,4 @@ export const loadUser = () => (dispatch, getState) => {
 //     });
 // };
 
-// Login User
-export const login = ({ phone, password }) => dispatch => {
-  //dispatch(returnErrors("خطأ في تسجيل الدخول", "500", "NO ERROR"));
-  dispatch({ type: USER_LOADING });
-  // Headers
-  const config = {
-    headers: {
-      "Content-Type": "application/json"
-    }
-  };
 
-  // Request body
-  const body = JSON.stringify({ phone, password });
-  
-  try {
-    let res = await
-    axios
-      .post(`${proxy}/api/auth`, body, config)
-     
-      if (res.status === "OK") {
-        dispatch({ type: NO_ERROR });
-        dispatch({
-          type: LOGIN_SUCCESS,
-          payload: res.data
-        });
-        
-        dispatch(loadUser());
-      } else {
-        
-        dispatch(
-          returnErrors(err.response.data, err.response.status, LOGIN_FAIL)
-        );
-        dispatch({
-          type: LOGIN_FAIL
-        });
-      }
-  
-} catch (error) {
-                   dispatch(
-          returnErrors('Connection error', 'ERR', CONNECTION_ERROR_LOGIN)
-        );
-}
-};
-
-// Logout User
-export const logout = () => dispatch => {
-  // return {
-  //   type: LOGOUT_SUCCESS
-  // };
-  dispatch({ type: LOGOUT_SUCCESS });
-  dispatch(clearErrors());
-};
-
-// Setup config/headers and token
-
-export const tokenConfig = getState => {
-  // Get token from loacalStorage
-
-  const token = getState().auth.token;
-
-  //Headers
-  const config = {
-    headers: {
-      "Content-type": "application/json"
-    }
-  };
-
-  // If token, add to headers
-
-  if (token) {
-    config.headers["x-auth-token"] = token;
-  }
-
-  return config;
-};
