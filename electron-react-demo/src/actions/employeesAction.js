@@ -113,23 +113,33 @@ export const addEmployee = ({ name, phone, password, nationality, type }) => (
 
   // Request body
   const body = JSON.stringify({ name, phone, password, nationality, type });
-  axios
-    .post(`${proxy}/api/employees/add`, body, tokenConfig(getState))
-    .then(res => {
-      dispatch({
-        type: EMPLOYEE_ADDED,
-        payload: res.data
-      });
-    })
-    .then(res => {
-      dispatch(getEmployees());
-    })
-    .catch(err => {
-      dispatch(
-        returnErrors(err.response.data, err.response.status, AUTH_ERROR)
-      );
-      dispatch({
-        type: AUTH_ERROR
-      });
-    });
+
+  
+  try {
+    let res = await axios
+      .post(`${proxy}/api/employees/add`, body, tokenConfig(getState))
+    
+      
+      if (res.status==='OK') {
+        dispatch({
+          type: EMPLOYEE_ADDED,
+          payload: res.data
+        });
+        
+        dispatch(getEmployees());
+      } else {
+        
+        dispatch(
+          returnErrors(err.response.data, err.response.status, AUTH_ERROR)
+        );
+        dispatch({
+          type: AUTH_ERROR
+        });
+      }
+   
+ } catch (error) {
+                 dispatch(
+          returnErrors('Connection error', 'ERR', CONNECTION_ERROR_GET_EMPLOYEE_ADD)
+        );
+ }
 };
