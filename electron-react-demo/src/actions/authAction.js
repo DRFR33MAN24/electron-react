@@ -27,45 +27,57 @@ export const loadUser = () => (dispatch, getState) => {
   // User loading
   dispatch({ type: USER_LOADING });
 
-  axios
-    .get(`${proxy}/api/auth/user`, tokenConfig(getState))
-    .then(res => {
-      dispatch({
-        type: USER_LOADED,
-        payload: res.data
-      });
-    })
-    .then(res => {
-      axios
-        .get(`${proxy}/api/auth/img`, {
-          responseType: "arraybuffer",
-          headers: tokenConfig(getState).headers
-        })
-        .then(r => {
-          let prefix = "data:" + r.headers["content-type"] + ";base64,";
-          let data = Buffer.from(r.data, "binary").toString("base64");
-          dispatch({ type: NO_ERROR });
-
-          dispatch({
-            type: IMG_LOADED,
-            payload: prefix + data
-          });
-        });
-    })
-    .catch(err => {
-      if (err.response.status === 400) {
-        dispatch(
-          returnErrors(err.response.data, err.response.status, AUTH_ERROR)
-        );
+  
+  try {
+    let res = await axios
+      .get(`${proxy}/api/auth/user`, tokenConfig(getState))
+      .then(res => {
+      })
+      
+      if (res.status==='OK') {
         dispatch({
-          type: AUTH_ERROR
+          type: USER_LOADED,
+          payload: res.data
         });
+        let res1 = await
+        axios
+          .get(`${proxy}/api/auth/img`, {
+            responseType: "arraybuffer",
+            headers: tokenConfig(getState).headers
+          })
+          if (res1.status === 'OK') {
+            
+            let prefix = "data:" + r.headers["content-type"] + ";base64,";
+            let data = Buffer.from(r.data, "binary").toString("base64");
+            dispatch({ type: NO_ERROR });
+        
+            dispatch({
+              type: IMG_LOADED,
+              payload: prefix + data
+            });
+          } else {
+            
+            dispatch(
+              returnErrors(err.response.data, err.response.status, AUTH_ERROR)
+            );
+            dispatch({
+              type: AUTH_ERROR
+            });
+          }
       } else {
-        dispatch(
-          returnErrors("CONNECTION_ERROR_LOADUSER", 500, CONNECTION_ERROR)
-        );
+                  dispatch(
+              returnErrors(err.response.data, err.response.status, AUTH_ERROR)
+            );
+            dispatch({
+              type: AUTH_ERROR
+            });
       }
-    });
+  
+} catch (error) {
+                   dispatch(
+          returnErrors('Connection error', 'ERR', CONNECTION_ERROR_LOAD_USER)
+        );
+}
 };
 
 //Register user
