@@ -224,33 +224,35 @@ export const login = ({ phone, password }) => dispatch => {
 
   // Request body
   const body = JSON.stringify({ phone, password });
-  axios
-    .post(`${proxy}/api/auth`, body, config)
-    .then(res => {
-      //console.log("NO_ERR");
-      dispatch({ type: NO_ERROR });
-      dispatch({
-        type: LOGIN_SUCCESS,
-        payload: res.data
-      });
-    })
-    .then(res => {
-      dispatch(loadUser());
-    })
-    .catch(err => {
-      const response = err.response;
-      if (response !== null || response !== null) {
+  
+  try {
+    let res = await
+    axios
+      .post(`${proxy}/api/auth`, body, config)
+     
+      if (res.status === "OK") {
+        dispatch({ type: NO_ERROR });
+        dispatch({
+          type: LOGIN_SUCCESS,
+          payload: res.data
+        });
+        
+        dispatch(loadUser());
+      } else {
+        
         dispatch(
           returnErrors(err.response.data, err.response.status, LOGIN_FAIL)
         );
         dispatch({
           type: LOGIN_FAIL
         });
-      } else {
-        console.log(err);
-        dispatch(returnErrors("CONNECTION_ERROR_LOGIN", 500, CONNECTION_ERROR));
       }
-    });
+  
+} catch (error) {
+                   dispatch(
+          returnErrors('Connection error', 'ERR', CONNECTION_ERROR_LOGIN)
+        );
+}
 };
 
 // Logout User
