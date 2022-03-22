@@ -59,31 +59,43 @@ export const getEmployeeImg = ({ phone }) => (dispatch, getState) => {
   const headers = tokenConfig(getState).headers;
   headers.phone = phone;
   dispatch({ type: EMPLOYEE_IMG_LOADING });
-  axios
-    .get(`${proxy}/api/employees/getImg`, {
-      responseType: "arraybuffer",
-      headers: headers
-    })
-    .then(r => {
-      let prefix = "data:" + r.headers["content-type"] + ";base64,";
-      let data = Buffer.from(r.data, "binary").toString("base64");
-      //dispatch({ type: NO_ERROR });
 
-      dispatch({
-        type: EMPLOYEE_IMG_LOADED,
-        payload: prefix + data
-      });
-    })
 
-    .catch(err => {
-      console.log(err);
-      dispatch(
-        returnErrors(err.response.data, err.response.status, AUTH_ERROR)
-      );
-      dispatch({
-        type: AUTH_ERROR
-      });
-    });
+  try {
+    
+    let res = await
+    axios
+      .get(`${proxy}/api/employees/getImg`, {
+        responseType: "arraybuffer",
+        headers: headers
+      })
+  
+  
+      if (res.status === 'OK') {
+        
+        let prefix = "data:" + res.headers["content-type"] + ";base64,";
+        let data = Buffer.from(res.data, "binary").toString("base64");
+        //dispatch({ type: NO_ERROR });
+  
+        dispatch({
+          type: EMPLOYEE_IMG_LOADED,
+          payload: prefix + data
+        });
+      } else {
+        
+        dispatch(
+          returnErrors(err.response.data, err.response.status, AUTH_ERROR)
+        );
+        dispatch({
+          type: AUTH_ERROR
+        });
+      }
+  } catch (error) {
+              dispatch(
+          returnErrors('Connection error', 'ERR', CONNECTION_ERROR_GET_EMPLOYEE_IMG)
+        );
+  }
+
 };
 
 export const addEmployee = ({ name, phone, password, nationality, type }) => (
