@@ -17,7 +17,7 @@ export default function(state = initialState, action) {
       return {
         msg: action.payload.msg,
         status: action.payload.status,
-        id: GET_ERRORS
+        id: action.payload.id
       };
 
     case CLEAR_ERRORS:
@@ -25,27 +25,6 @@ export default function(state = initialState, action) {
         msg: {},
         status: null,
         id: NO_ERROR
-      };
-
-    case NO_ERROR:
-      return {
-        msg: {},
-        status: null,
-        id: NO_ERROR
-      };
-
-    case CONNECTION_ERROR:
-      return {
-        msg: action.payload.msg,
-        status: action.payload.status,
-        id: CONNECTION_ERROR
-      };
-
-    case AUTH_ERROR:
-      return {
-        msg: action.payload.msg,
-        status: action.payload.status,
-        id: AUTH_ERROR
       };
 
     default:

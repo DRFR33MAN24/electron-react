@@ -11,29 +11,37 @@ import {
 import { tokenConfig } from "./authAction";
 import { returnErrors } from "./errorAction";
 const proxy = "http://localhost:5000";
+
+
+
 // Check token & load user
 export const getEmployees = () => (dispatch, getState) => {
   console.log("getEmployees called");
 
   dispatch({ type: EMPLOYEES_LOADING });
+  
+  try {
+    let res = await axios
+      .post(`${proxy}/api/employees`, tokenConfig(getState))
 
-  axios
-    .post(`${proxy}/api/employees`, tokenConfig(getState))
-    .then(res => {
-      dispatch({
-        type: EMPLOYEES_LOADED,
-        payload: res.data
-      });
-    })
-
-    .catch(err => {
-      dispatch(
-        returnErrors(err.response.data, err.response.status, AUTH_ERROR)
-      );
-      dispatch({
-        type: AUTH_ERROR
-      });
+    dispatch({
+      type: EMPLOYEES_LOADED,
+      payload: res.data
     });
+
+    dispatch(
+      returnErrors(err.response.data, err.response.status, AUTH_ERROR)
+    );
+    dispatch({
+      type: AUTH_ERROR
+    });
+  } catch (err) {
+
+  }
+
+
+
+
 };
 
 export const getEmployeeImg = ({ phone }) => (dispatch, getState) => {
