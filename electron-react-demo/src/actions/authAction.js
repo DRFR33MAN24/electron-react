@@ -1,5 +1,6 @@
 import axios from "axios";
 import { clearErrors, returnErrors } from "./errorAction";
+import {CONN_STS_ERR,CONN_STS_OK} from '../util';
 //import { sendEmail } from "./sendEmailAction";
 import {
   USER_LOADED,
@@ -31,21 +32,20 @@ export const loadUser = () => (dispatch, getState) => {
   try {
     let res = await axios
       .get(`${proxy}/api/auth/user`, tokenConfig(getState))
-      .then(res => {
-      })
       
-      if (res.status==='OK') {
+      
+      if (res.data.status===CONN_STS_OK) {
         dispatch({
           type: USER_LOADED,
           payload: res.data
         });
-        let res1 = await
+        let res = await
         axios
           .get(`${proxy}/api/auth/img`, {
             responseType: "arraybuffer",
             headers: tokenConfig(getState).headers
           })
-          if (res1.status === 'OK') {
+          if (res.data.status === CONN_STS_OK) {
             
             let prefix = "data:" + r.headers["content-type"] + ";base64,";
             let data = Buffer.from(r.data, "binary").toString("base64");
@@ -58,7 +58,7 @@ export const loadUser = () => (dispatch, getState) => {
           } else {
             
             dispatch(
-              returnErrors(err.response.data, err.response.status, AUTH_ERROR)
+              returnErrors(res.data.msg, res.data.status, AUTH_ERROR)
             );
             dispatch({
               type: AUTH_ERROR
@@ -66,16 +66,17 @@ export const loadUser = () => (dispatch, getState) => {
           }
       } else {
                   dispatch(
-              returnErrors(err.response.data, err.response.status, AUTH_ERROR)
+              returnErrors(res.data.msg, res.data.status, AUTH_ERROR)
             );
             dispatch({
               type: AUTH_ERROR
             });
-      }
+      } 
   
 } catch (error) {
+  console.log("Load User Action",error)
                    dispatch(
-          returnErrors('Connection error', 'ERR', CONNECTION_ERROR_LOAD_USER)
+          returnErrors('Connection error', CONN_STS_ERR, CONNECTION_ERROR_LOAD_USER)
         );
 }
 };
@@ -100,7 +101,7 @@ export const login = ({ phone, password }) => dispatch => {
     axios
       .post(`${proxy}/api/auth`, body, config)
      
-      if (res.status === "OK") {
+      if (res.data.status === CONN_STS_OK) {
         dispatch({ type: NO_ERROR });
         dispatch({
           type: LOGIN_SUCCESS,
@@ -111,7 +112,7 @@ export const login = ({ phone, password }) => dispatch => {
       } else {
         
         dispatch(
-          returnErrors(err.response.data, err.response.status, LOGIN_FAIL)
+          returnErrors(res.data.msg, res.data.status, LOGIN_FAIL)
         );
         dispatch({
           type: LOGIN_FAIL
@@ -119,8 +120,9 @@ export const login = ({ phone, password }) => dispatch => {
       }
   
 } catch (error) {
+  console.log("Login Action",error)
                    dispatch(
-          returnErrors('Connection error', 'ERR', CONNECTION_ERROR_LOGIN)
+          returnErrors('Connection error', CONN_STS_ERR, CONNECTION_ERROR_LOGIN)
         );
 }
 };
@@ -157,135 +159,5 @@ export const tokenConfig = getState => {
   return config;
 };
 
-//Register user
-
-// export const register = ({
-//   name,
-//   email,
-//   password,
-//   active,
-//   token
-// }) => dispatch => {
-//   dispatch({ type: USER_LOADING });
-//   //dispatch(sendEmail(email));
-//   //console.log("access-able");
-//   // Headers
-//   const config = {
-//     headers: {
-//       "Content-Type": "application/json"
-//     }
-//   };
-
-//   // Request body
-//   const body = JSON.stringify({ name, email, password, active, token });
-
-//   axios
-//     .post("/api/users", body, config)
-//     .then(res => {
-//       dispatch({
-//         type: REGISTER_SUCCESS,
-//         payload: res.data
-//       });
-//     })
-//     .then(() => {
-//       // dispatch(sendEmail(email));
-//     })
-
-//     .catch(err => {
-//       dispatch(
-//         returnErrors(err.response.data, err.response.status, "REGISTER_FAIL")
-//       );
-//       dispatch({
-//         type: REGISTER_FAIL
-//       });
-//     });
-// };
-
-// export const updateDetails = ({
-//   name,
-//   email,
-//   password,
-//   id,
-//   wallet,
-//   country,
-//   region,
-//   address,
-//   zip
-// }) => (dispatch, getState) => {
-//   dispatch({ type: USER_LOADING });
-//   // Headers
-//   console.log("updateDetails Called");
-//   // const config = {
-//   //   headers: {
-//   //     "Content-Type": "application/json"
-//   //   }
-//   // };
-
-//   // Request body
-//   const body = JSON.stringify({
-//     name,
-//     email,
-//     password,
-//     id,
-//     wallet,
-//     country,
-//     region,
-//     address,
-//     zip
-//   });
-//   axios
-//     .post("/api/users/update", body, tokenConfig(getState))
-//     .then(res =>
-//       dispatch({
-//         type: UPDATE_SUCCESS
-//       })
-//     )
-//     .then(() => {
-//       // dispatch(sendEmail(email));
-//     })
-//     .catch(err => {
-//       dispatch(
-//         returnErrors(err.response.data, err.response.status, "UPDATE_FAIL")
-//       );
-//       dispatch({
-//         type: UPDATE_FAIL
-//       });
-//     });
-// };
-
-// export const resetPassword = ({ email, password, token }) => (
-//   dispatch,
-//   getState
-// ) => {
-//   dispatch({ type: USER_LOADING });
-//   // Headers
-//   console.log("resetPassword Called");
-//   // const config = {
-//   //   headers: {
-//   //     "Content-Type": "application/json"
-//   //   }
-//   // };
-
-//   // Request body
-//   const body = JSON.stringify({ email, password, token });
-//   axios
-//     .post("/api/users/reset", body, tokenConfig(getState))
-//     .then(res =>
-//       dispatch({
-//         type: RESET_SUCCESS
-//       })
-//     )
-//     .then(() => {
-//       // dispatch(sendEmail(email));
-//     })
-//     .catch(err => {
-//       dispatch(
-//         returnErrors(err.response.data, err.response.status, "RESET_FAIL")
-//       );
-//       dispatch({
-//         type: RESET_FAIL
-//       });
-//     });
-// };
 
 

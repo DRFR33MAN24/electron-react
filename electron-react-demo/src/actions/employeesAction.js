@@ -10,6 +10,7 @@ import {
 } from "./types";
 import { tokenConfig } from "./authAction";
 import { returnErrors } from "./errorAction";
+import {CONN_STS_ERR,CONN_STS_OK} from '../util';
 const proxy = "http://localhost:5000";
 
 
@@ -27,7 +28,7 @@ export const getEmployees = () => (dispatch, getState) => {
     let res = await axios
       .post(`${proxy}/api/employees`, tokenConfig(getState))
 
-      if (res.status === 'OK') {
+      if (res.data.status === CONN_STS_OK) {
         
         dispatch({
           type: EMPLOYEES_LOADED,
@@ -35,7 +36,7 @@ export const getEmployees = () => (dispatch, getState) => {
         });
       } else {
         dispatch(
-          returnErrors(err.response.data, err.response.status, AUTH_ERROR)
+          returnErrors(res.data.msg, res.data.status, AUTH_ERROR)
         );
         dispatch({
           type: AUTH_ERROR
@@ -45,7 +46,7 @@ export const getEmployees = () => (dispatch, getState) => {
 
   } catch (err) {
           dispatch(
-          returnErrors('Connection error', 'ERR', CONNECTION_ERROR_GET_EMPLOYEES)
+          returnErrors('Connection error', CONN_STS_ERR, CONNECTION_ERROR_GET_EMPLOYEES)
         );
   }
 
@@ -71,7 +72,7 @@ export const getEmployeeImg = ({ phone }) => (dispatch, getState) => {
       })
   
   
-      if (res.status === 'OK') {
+      if (res.data.status === CONN_STS_OK) {
         
         let prefix = "data:" + res.headers["content-type"] + ";base64,";
         let data = Buffer.from(res.data, "binary").toString("base64");
@@ -84,7 +85,7 @@ export const getEmployeeImg = ({ phone }) => (dispatch, getState) => {
       } else {
         
         dispatch(
-          returnErrors(err.response.data, err.response.status, AUTH_ERROR)
+          returnErrors(res.data.msg, res.data.status, AUTH_ERROR)
         );
         dispatch({
           type: AUTH_ERROR
@@ -92,7 +93,7 @@ export const getEmployeeImg = ({ phone }) => (dispatch, getState) => {
       }
   } catch (error) {
               dispatch(
-          returnErrors('Connection error', 'ERR', CONNECTION_ERROR_GET_EMPLOYEE_IMG)
+          returnErrors('Connection error', CONN_STS_ERR, CONNECTION_ERROR_GET_EMPLOYEE_IMG)
         );
   }
 
@@ -120,7 +121,7 @@ export const addEmployee = ({ name, phone, password, nationality, type }) => (
       .post(`${proxy}/api/employees/add`, body, tokenConfig(getState))
     
       
-      if (res.status==='OK') {
+      if (res.data.status===CONN_STS_OK) {
         dispatch({
           type: EMPLOYEE_ADDED,
           payload: res.data
@@ -139,7 +140,7 @@ export const addEmployee = ({ name, phone, password, nationality, type }) => (
    
  } catch (error) {
                  dispatch(
-          returnErrors('Connection error', 'ERR', CONNECTION_ERROR_GET_EMPLOYEE_ADD)
+          returnErrors('Connection error', CONN_STS_ERR, CONNECTION_ERROR_GET_EMPLOYEE_ADD)
         );
  }
 };
